@@ -1,0 +1,14 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\__Scripts\MenuButtons.cs">
+    <Files>
+      <File FileName="Assets\__Scripts\MenuButtons.cs" Line="15" Column="1" />
+      <File FileName="Assets\__Scripts\PlayMenuButtons.cs" Line="16" Column="19" />
+      <File FileName="Assets\__Scripts\SettingsMenuButtons.cs" Line="15" Column="2" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
