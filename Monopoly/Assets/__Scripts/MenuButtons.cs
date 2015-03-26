@@ -8,12 +8,7 @@ public class MenuButtons : MonoBehaviour {
 	public GameObject SettingsMenu;
 
 	void Start(){
-		PlayMenu = GameObject.Find ("PlayMenu");
-		SettingsMenu = GameObject.Find ("SettingsMenu");
-		MainMenu = GameObject.Find ("MainMenu");
-
-		PlayMenu.SetActive (false);
-		SettingsMenu.SetActive (false);
+		MainMenu = this.gameObject;
 	}
 
 	public void PlayButton(){

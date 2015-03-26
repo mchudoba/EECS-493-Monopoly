@@ -8,13 +8,12 @@ public class PlayMenuButtons : MonoBehaviour {
 	public GameObject SettingsMenu;
 
 	void Start(){
-		PlayMenu = GameObject.Find ("PlayMenu");
-		SettingsMenu = GameObject.Find ("SettingsMenu");
-		MainMenu = GameObject.Find ("MainMenu");
+		PlayMenu = this.gameObject;
 	}
 
+
 	public void BeginButton(){
-		Application.LoadLevel("_Game_Board");
+		Application.LoadLevel("Game_Board");
 	}
 
 	public void TokenButton(){

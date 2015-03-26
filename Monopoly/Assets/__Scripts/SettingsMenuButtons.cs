@@ -8,9 +8,7 @@ public class SettingsMenuButtons : MonoBehaviour {
 	public GameObject SettingsMenu;
 
 	void Start(){
-		PlayMenu = GameObject.Find ("PlayMenu");
-		SettingsMenu = GameObject.Find ("SettingsMenu");
-		MainMenu = GameObject.Find ("MainMenu");
+		SettingsMenu = this.gameObject;
 	}
 
 	public void AcceptButton(){
