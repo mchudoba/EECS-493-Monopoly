@@ -48,6 +48,7 @@
   <ItemGroup>
      <Compile Include="Assets\__Scripts\CameraAspect.cs" />
      <Compile Include="Assets\__Scripts\CameraControl.cs" />
+     <Compile Include="Assets\__Scripts\Dice.cs" />
      <Compile Include="Assets\__Scripts\MenuButtons.cs" />
      <Compile Include="Assets\__Scripts\PlayMenuButtons.cs" />
      <Compile Include="Assets\__Scripts\SettingsMenuButtons.cs" />
