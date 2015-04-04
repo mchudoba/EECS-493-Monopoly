@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class CameraControl : MonoBehaviour
@@ -23,7 +24,7 @@ public class CameraControl : MonoBehaviour
 	private float scrollVelocity = 0f;
 	private float timeTouchPhaseEnded;
 	private Vector2 scrollDirection = Vector2.zero;
-	
+
 	void Start()
 	{
 		cam = GetComponent<Camera>();
@@ -33,12 +34,12 @@ public class CameraControl : MonoBehaviour
 			maxZoom = 0.5f * mapHeight;
 
 		CalculateMapBounds();
-		cam.transform.position = new Vector3(minX, minY, -10f);
-		cam.orthographicSize = minZoom;
 	}
 	
 	void Update()
 	{
+		if (SidePanelOpener.sidePanelOpen) return;
+
 		if (updateZoomSensitivity)
 		{
 			moveSensitivityX = cam.orthographicSize / zoomSensitivityFactor;
@@ -127,6 +128,8 @@ public class CameraControl : MonoBehaviour
 
 	void LateUpdate()
 	{
+		if (SidePanelOpener.sidePanelOpen) return;
+
 		Vector3 limitedCameraPosition = cam.transform.position;
 		limitedCameraPosition.x = Mathf.Clamp(limitedCameraPosition.x, minX, maxX);
 		limitedCameraPosition.y = Mathf.Clamp(limitedCameraPosition.y, minY, maxY);

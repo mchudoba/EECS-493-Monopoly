@@ -46,10 +46,13 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\__Scripts\CameraAspect.cs" />
      <Compile Include="Assets\__Scripts\CameraControl.cs" />
      <Compile Include="Assets\__Scripts\MenuButtons.cs" />
      <Compile Include="Assets\__Scripts\PlayMenuButtons.cs" />
      <Compile Include="Assets\__Scripts\SettingsMenuButtons.cs" />
+     <Compile Include="Assets\__Scripts\SidePanelOpener.cs" />
+     <Compile Include="Assets\__Scripts\TextDebug.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
