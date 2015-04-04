@@ -12,14 +12,35 @@ public class Dice : MonoBehaviour {
 
 	Renderer r;
 
+	public float timerVal = 2f;
+	public float timer = 0;
+
+	public int currentSide = 6;
+
 	// Use this for initialization
 	void Start () {
 		r = gameObject.GetComponent<Renderer> ();
 	}
+
+	public int Roll(){
+		timer = timerVal;
+		currentSide = Random.Range (1, 7);
+		return currentSide;
+	}
 	
 	// Update is called once per frame
 	void Update () {
-		int side = Random.Range (1, 7);
+		if (timer > 0.1f) {
+			timer -= Time.deltaTime;
+			int side = Random.Range (1, 7);
+			changeSide (side);
+		} else if (timer > 0) {
+			timer -= Time.deltaTime;
+			changeSide(currentSide);
+		}
+	}
+
+	void changeSide(int side){
 		switch (side) {
 		case 1:
 			r.material = side1;
