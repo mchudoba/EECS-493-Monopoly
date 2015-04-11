@@ -6,6 +6,8 @@ public class NetworkManager : MonoBehaviour
 	public bool isRefreshing = false;
 	public bool foundGames = false;
 
+	private MenuManager menuManager;
+	private MenuInteraction menuInteraction;
 	private HostData connectedServer;
 	private float refreshRequestLength = 3.0f;
 	private HostData[] hostData;
@@ -17,6 +19,11 @@ public class NetworkManager : MonoBehaviour
 
 	void Awake()
 	{
+		DontDestroyOnLoad(this);
+
+		menuManager = GameObject.Find("MenuManager").GetComponent<MenuManager>();
+		menuInteraction = GameObject.Find("MenuManager").GetComponent<MenuInteraction>();
+
 		serverInfo = new ServerInfo[numServers];
 		for (int i = 0; i < numServers; ++i)
 			serverInfo[i] = GameObject.Find("ServerInfo " + (i + 1).ToString()).GetComponent<ServerInfo>();
@@ -46,6 +53,16 @@ public class NetworkManager : MonoBehaviour
 		lobbyInfo[index].setPlayerInfo(PlayerPrefs.GetString("Player Name"));
 	}
 
+	void OnDisconnectedFromServer()
+	{
+		if (Application.loadedLevelName == "Game_Board")
+			Application.LoadLevel("Main_Menu");
+
+		menuManager.ShowPlayMenu();
+		menuManager.ShowPopupMenu();
+		menuInteraction.ServerDisconnectPopup();
+	}
+
 	void OnApplicationQuit()
 	{
 		if (Network.isServer)
@@ -68,7 +85,6 @@ public class NetworkManager : MonoBehaviour
 	public void FindServers()
 	{
 		if (isRefreshing) return;
-
 		StartCoroutine("RefreshHostList");
 	}
 

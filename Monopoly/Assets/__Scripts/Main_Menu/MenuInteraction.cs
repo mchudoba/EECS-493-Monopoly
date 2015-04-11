@@ -23,6 +23,12 @@ public class MenuInteraction : MonoBehaviour
 	private HostData serverData;
 	private Button joinButton;
 
+	// PopupMenu objects
+	private Text messageText;
+	private Button okayButton;
+	private Button confirmButton;
+	private Button cancelButton;
+
 	void Awake()
 	{
 		networkManager = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
@@ -51,6 +57,12 @@ public class MenuInteraction : MonoBehaviour
 		refreshList.SetActive(false);
 		searchingText.enabled = true;
 		noGamesText.enabled = false;
+
+		// PopupMenu objects
+		messageText = GameObject.Find("MessageText").GetComponent<Text>();
+		okayButton = GameObject.Find("OkayButton").GetComponent<Button>();
+		confirmButton = GameObject.Find("ConfirmButton").GetComponent<Button>();
+		cancelButton = GameObject.Find("CancelButton").GetComponent<Button>();
 	}
 
 	void Update()
@@ -112,9 +124,49 @@ public class MenuInteraction : MonoBehaviour
 		networkManager.ConnectToServer(serverData);
 	}
 
+	public void LeaveLobbyPopup()
+	{
+		if (Network.isServer)
+			messageText.text = "Leaving the lobby will remove all players from the game. Continue?";
+		else if (Network.isClient)
+			messageText.text = "Leaving the lobby will remove you from the game. Continue?";
+		else
+			Debug.LogError("Trying to leave lobby, but not a client or server");
+
+		okayButton.gameObject.SetActive(false);
+		confirmButton.gameObject.SetActive(true);
+		cancelButton.gameObject.SetActive(true);
+	}
+
+	public void LeaveLobbyConfirm()
+	{
+		if (Network.isServer)
+		{
+			Network.Disconnect();
+			MasterServer.UnregisterHost();
+		}
+		else if (Network.isClient)
+		{
+			Network.Disconnect();
+		}
+		else
+		{
+			Debug.LogError("Leaving lobby: not a server or client");
+		}
+	}
+
+	public void ServerDisconnectPopup()
+	{
+		okayButton.gameObject.SetActive(true);
+		confirmButton.gameObject.SetActive(false);
+		cancelButton.gameObject.SetActive(false);
+		messageText.text = "You have been disconnected from the game";
+	}
+
 	public void StartGame()
 	{
-		netView.RPC("startLevelRPC", RPCMode.AllBuffered);
+		Debug.Log("Starting game");
+		netView.RPC("startGameRPC", RPCMode.AllBuffered);
 	}
 
 	[RPC]

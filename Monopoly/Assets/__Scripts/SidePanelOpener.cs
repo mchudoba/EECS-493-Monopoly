@@ -31,12 +31,32 @@ public class SidePanelOpener : MonoBehaviour
 
 	public void RestartLevel()
 	{
+		if (Network.isServer)
+		{
+			Network.Disconnect();
+			MasterServer.UnregisterHost();
+		}
+		else if (Network.isClient)
+		{
+			Network.Disconnect();
+		}
+
 		sidePanelOpen = false;
 		Application.LoadLevel("Game_Board");
 	}
 
 	public void ReturnToMenu()
 	{
+		if (Network.isServer)
+		{
+			Network.Disconnect();
+			MasterServer.UnregisterHost();
+		}
+		else if (Network.isClient)
+		{
+			Network.Disconnect();
+		}
+
 		sidePanelOpen = false;
 		Application.LoadLevel("Main_Menu");
 	}

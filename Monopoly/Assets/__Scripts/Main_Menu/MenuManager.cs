@@ -8,6 +8,7 @@ public class MenuManager : MonoBehaviour
 	public GameObject HostMenu;
 	public GameObject JoinMenu;
 	public GameObject LobbyMenu;
+	public GameObject PopupMenu;
 
 	private GameObject activeMenu;
 
@@ -20,6 +21,7 @@ public class MenuManager : MonoBehaviour
 		HostMenu.SetActive(true);
 		JoinMenu.SetActive(true);
 		LobbyMenu.SetActive(true);
+		PopupMenu.SetActive(true);
 	}
 
 	void Start()
@@ -28,6 +30,7 @@ public class MenuManager : MonoBehaviour
 		HostMenu.SetActive(false);
 		JoinMenu.SetActive(false);
 		LobbyMenu.SetActive(false);
+		PopupMenu.SetActive(false);
 	}
 
 	public void ShowPlayMenu()
@@ -56,5 +59,10 @@ public class MenuManager : MonoBehaviour
 		activeMenu.SetActive(false);
 		LobbyMenu.SetActive(true);
 		activeMenu = LobbyMenu;
+	}
+
+	public void ShowPopupMenu()
+	{
+		PopupMenu.SetActive(true);
 	}
 }
