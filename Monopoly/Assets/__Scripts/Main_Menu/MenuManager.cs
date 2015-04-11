@@ -3,6 +3,7 @@ using System.Collections;
 
 public class MenuManager : MonoBehaviour
 {
+	public GameObject StartMenu;
 	public GameObject PlayMenu;
 	public GameObject HostMenu;
 	public GameObject JoinMenu;
@@ -12,8 +13,9 @@ public class MenuManager : MonoBehaviour
 
 	void Awake()
 	{
-		activeMenu = PlayMenu;
+		activeMenu = StartMenu;
 
+		StartMenu.SetActive(true);
 		PlayMenu.SetActive(true);
 		HostMenu.SetActive(true);
 		JoinMenu.SetActive(true);
@@ -22,6 +24,7 @@ public class MenuManager : MonoBehaviour
 
 	void Start()
 	{
+		PlayMenu.SetActive(false);
 		HostMenu.SetActive(false);
 		JoinMenu.SetActive(false);
 		LobbyMenu.SetActive(false);
@@ -53,10 +56,5 @@ public class MenuManager : MonoBehaviour
 		activeMenu.SetActive(false);
 		LobbyMenu.SetActive(true);
 		activeMenu = LobbyMenu;
-	}
-
-	public void StartGame()
-	{
-		Application.LoadLevel("Game_Board");
 	}
 }
