@@ -12,17 +12,23 @@ public class Dice : MonoBehaviour {
 
 	Renderer r;
 
-	public float timerVal = 2f;
-	public float timer = 0;
+	public static float timerVal = 2f;
+	public static float timer = 0;
 
-	public int currentSide = 6;
+	public static int currentSide = 6;
+
+	public static bool rolling{
+		get{
+			return timer > 0;
+		}
+	}
 
 	// Use this for initialization
 	void Start () {
 		r = gameObject.GetComponent<Renderer> ();
 	}
 
-	public int Roll(){
+	public static int Roll(){
 		timer = timerVal;
 		currentSide = Random.Range (1, 7);
 		return currentSide;
