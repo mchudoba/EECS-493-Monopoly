@@ -14,6 +14,8 @@ public class Dice : MonoBehaviour {
 
 	public static float timerVal = 2f;
 	public static float timer = 0;
+	public static float changeTimerVal = 0.1f;
+	public static float changeTimer = 0;
 
 	public static int currentSide = 6;
 
@@ -38,8 +40,12 @@ public class Dice : MonoBehaviour {
 	void Update () {
 		if (timer > 0.1f) {
 			timer -= Time.deltaTime;
-			int side = Random.Range (1, 7);
-			changeSide (side);
+			if(changeTimer > 0.01f){
+				changeTimer -= Time.deltaTime;
+			} else {
+				changeSide(Random.Range (1, 7));
+				changeTimer = changeTimerVal;
+			}
 		} else if (timer > 0) {
 			timer -= Time.deltaTime;
 			changeSide(currentSide);

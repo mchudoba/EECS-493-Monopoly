@@ -1091,6 +1091,7 @@ MonoBehaviour:
   P2: {fileID: 1939458511}
   P3: {fileID: 1083724044}
   P4: {fileID: 6563823}
+  players: []
   turn: 0
   initialroll: 1
   money: []
