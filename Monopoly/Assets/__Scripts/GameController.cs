@@ -16,6 +16,7 @@ public class GameController : MonoBehaviour {
 	public GameObject P2;
 	public GameObject P3;
 	public GameObject P4;
+	public GameObject[] players;
 
 	public int turn = 0;
 
@@ -35,6 +36,13 @@ public class GameController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		players = new GameObject[5];
+		players [1] = P1;
+		players [2] = P2;
+		players [3] = P3;
+		players [4] = P4;
+
+
 		money = new float[5];
 		diceval = new int[5];
 		playerorder = new GameObject[5];
@@ -92,6 +100,17 @@ public class GameController : MonoBehaviour {
 				++counter;
 				if(counter > 4) diceval[0] = 0;
 			}
+
+			return; //no moving on initial roll
 		}
+
+		/*call standard functions*/
+		//playerorder[turn].move(diceval[turn]);
+		//whatever function occurs on that space will happen here
+	}
+
+	//send index of player (P1 is 1) and amount to add. Negative amount subtracts money.
+	public void changeMoney(int player, float amount){
+		money [player] += amount;
 	}
 }
