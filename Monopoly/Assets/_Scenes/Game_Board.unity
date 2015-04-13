@@ -272,6 +272,25 @@ CanvasRenderer:
 GameObject:
   m_PrefabParentObject: {fileID: 146238, guid: eae781b050bcd5148833a690cc9633b0, type: 2}
   m_PrefabInternal: {fileID: 895119518}
+--- !u!114 &31248741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 31248736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5cfee09734cec741bbad7cb4157a595, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boardSpaces: []
+  start: {x: 0, y: 0, z: 0}
+  position: {x: 0, y: 0, z: 0}
+  tempPosition: {x: 0, y: 0, z: 0}
+  currentIndex: 0
+  targetIndex: 0
+  currentPosition: {x: 0, y: 0, z: 0}
+  targetPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &35103735
 GameObject:
   m_ObjectHideFlags: 0
@@ -3461,7 +3480,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 443364, guid: eae781b050bcd5148833a690cc9633b0, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -7.36999989
+      value: -7.30000019
       objectReference: {fileID: 0}
     - target: {fileID: 443364, guid: eae781b050bcd5148833a690cc9633b0, type: 2}
       propertyPath: m_LocalPosition.z
@@ -5241,7 +5260,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 409838, guid: fe5a335ec3868114086ac2c2446265e6, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -7.36999989
+      value: -7.30000019
       objectReference: {fileID: 0}
     - target: {fileID: 409838, guid: fe5a335ec3868114086ac2c2446265e6, type: 2}
       propertyPath: m_LocalPosition.z
