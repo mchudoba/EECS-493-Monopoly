@@ -4,11 +4,14 @@ using System.Collections;
 public class MovePiece : MonoBehaviour {
 
 	public Vector3[] boardSpaces; 
+	public Vector3 inJail;
 	private int spaceTotal;
 	public int currentIndex;
 	public int targetIndex;
 	public float speed;
 	public int counter;
+	public static bool jail;
+	public static bool noCollect;
 
 	// Use this for initialization
 	void Start () {
@@ -18,6 +21,8 @@ public class MovePiece : MonoBehaviour {
 		targetIndex = 28;	//sets the piece's target position 
 		counter = 0;		//counter used to control how fast pieces move
 		speed = 0.5f;		//speed for "Vector3.Lerp
+		jail = true; 		//true = in jail, false = free
+		noCollect = false;	//true = event where you don't collect on go (chance, etc.), false = can collect
 	}
 	
 	// Update is called once per frame
@@ -35,6 +40,17 @@ public class MovePiece : MonoBehaviour {
 					transform.position = Vector3.Lerp (boardSpaces [currentIndex], boardSpaces [0], speed * Time.deltaTime);
 					transform.position = boardSpaces[0];
 					currentIndex=0;
+					if (jail == false || noCollect == false) {
+						Debug.Log ("GO!");
+						//INSERT "PASSING GO" STUFF IN HERE!
+						
+					}
+				}
+				else if (currentIndex == 9 && jail == true) {	//going to jail
+					transform.position = Vector3.Lerp (boardSpaces [currentIndex], inJail, speed * Time.deltaTime);
+					transform.position = inJail;
+					currentIndex++;
+					jail = false;
 				}
 				else {	//Traverse one space ahead at a time
 					transform.position = Vector3.Lerp (boardSpaces [currentIndex], boardSpaces [currentIndex + 1], speed * Time.deltaTime);
@@ -234,6 +250,25 @@ public class MovePiece : MonoBehaviour {
 			}
 			Debug.Log (index);
 			boardSpaces [index] = new Vector3(x,y,z);
+		}
+
+		//SETS THE INJAIL SPACE ON BOARD
+		if (gameObject.tag == "P1") {	//sphere
+			Debug.Log ("SPHERE");
+			inJail = new Vector3(-4.8f, 7.9f, -1f);
+		}
+		else if(gameObject.tag == "P2") {//cube
+			Debug.Log ("CUBE");
+			inJail = new Vector3(-4.8f, 7.2f, -1f);
+			
+		}
+		else if(gameObject.tag == "P3") {//capsule
+			Debug.Log ("CAPSULE");
+			inJail = new Vector3(-4.2f, 7.9f, -1f);
+		}
+		else if(gameObject.tag == "P4") {//cylinder
+			Debug.Log ("CYLINDER");
+			inJail = new Vector3(-4.2f, 7.2f, -1f);
 		}
 
 		//resets index back to start:
