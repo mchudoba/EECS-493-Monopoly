@@ -12,58 +12,56 @@ public class MovePiece : MonoBehaviour {
 	public int counter;
 	public static bool jail;
 	public static bool noCollect;
+	public static bool rolled;
+	public static bool initialRoll;
 
 	// Use this for initialization
 	void Start () {
 		spaceTotal = 32;	//sets number of spaces of board
 		initBoardArray ();	//Initializes the space positioning into arrays for each piece
-		currentIndex = 29;  //sets the piece's current position
-		targetIndex = 28;	//sets the piece's target position 
+
+		//Change Variables below for testing purposes:
+		currentIndex = 0;  //sets the piece's current position
+		targetIndex = 0;	//sets the piece's target position 
 		counter = 0;		//counter used to control how fast pieces move
 		speed = 0.5f;		//speed for "Vector3.Lerp
-		jail = true; 		//true = in jail, false = free
+		jail = false; 		//true = in jail, false = free
 		noCollect = false;	//true = event where you don't collect on go (chance, etc.), false = can collect
+		rolled = false;
+		initialRoll = true; //initial roll still has not been rolled
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-		Debug.Log (currentIndex);
+		/*Debug.Log (currentIndex);
 		Debug.Log (targetIndex);
-		Debug.Log ("COUNTER");
-
-		Debug.Log (counter);
-
-		if (counter % 10 == 0) {	//Change number for how fast pieces move
-			if (currentIndex != targetIndex) {
-				if(currentIndex == 31) {	//If reach end of boardSpaces array
-					transform.position = Vector3.Lerp (boardSpaces [currentIndex], boardSpaces [0], speed * Time.deltaTime);
-					transform.position = boardSpaces[0];
-					currentIndex=0;
-					if (jail == false || noCollect == false) {
-						Debug.Log ("GO!");
-						//INSERT "PASSING GO" STUFF IN HERE!
-						
-					}
-				}
-				else if (currentIndex == 9 && jail == true) {	//going to jail
-					transform.position = Vector3.Lerp (boardSpaces [currentIndex], inJail, speed * Time.deltaTime);
-					transform.position = inJail;
-					currentIndex++;
-					jail = false;
-				}
-				else {	//Traverse one space ahead at a time
-					transform.position = Vector3.Lerp (boardSpaces [currentIndex], boardSpaces [currentIndex + 1], speed * Time.deltaTime);
-					transform.position = boardSpaces[currentIndex+1];
-					currentIndex++;
-				}
-			}
-			else {	//Reach destination, now wait until targetIndex changes
-				Debug.Log ("Waiting");
-				return;
-			}
+		Debug.Log ("COUNTER");*/
+	
+		/*Debug.Log (counter);
+		if (Dice.currentSide == 6) {
+			Debug.Log ("IS THIS WORKING LOL?");
 		}
-		counter++;
+	
+		Debug.Log (Dice.rolling == false);
+		Debug.Log (rolled);
+		Debug.Log (initialRoll);
+		if (Dice.rolling) { //dice is still rolling/initial, so wait
+			Debug.Log ("Waiting for end of roll/first roll");
+			initialRoll = false;
+			return;
+		} else if (Dice.rolling == false && rolled == true && initialRoll == false) { //dice finished rolling and was rolled
+			Debug.Log ("@@@@@@@@@ MOVE TOWARDS TARGET LOCATION! @@@@@@@@");
+			targetIndex = currentIndex + Dice.currentSide;
+			moveTowardsTarget ();
+			rolled = false;
+		} else { //dice is finished rolling and got to target location and is waiting
+			Debug.Log ("Waiting for next roll");
+			return;
+		}*/
+
+		//moveTowardsTarget ();
+
 	}
 
 
@@ -72,7 +70,6 @@ public class MovePiece : MonoBehaviour {
 
 		boardSpaces = new Vector3[spaceTotal];
 
-		Vector3 start = new Vector3 ();
 		int index = 0;
 		int currentIndex = 0;
 		float x = -5.3f;
@@ -102,9 +99,9 @@ public class MovePiece : MonoBehaviour {
 			boardSpaces[index] = new Vector3 (x, y, z);
 		}
 
-		Debug.Log (index);
+		/*Debug.Log (index);
 		Debug.Log (currentIndex);
-		Debug.Log (boardSpaces[index]);
+		Debug.Log (boardSpaces[index]);*/
 
 		index++;
 		
@@ -150,7 +147,7 @@ public class MovePiece : MonoBehaviour {
 				y += 1.5f;
 			}
 
-			Debug.Log (index);
+			//Debug.Log (index);
 			boardSpaces [index] = new Vector3(x,y,z);	//sets new position at index
 		}
 		
@@ -186,7 +183,7 @@ public class MovePiece : MonoBehaviour {
 				}
 			}
 
-			Debug.Log (index);
+			//Debug.Log (index);
 			boardSpaces [index] = new Vector3(x,y,z);
 		}
 		
@@ -221,7 +218,7 @@ public class MovePiece : MonoBehaviour {
 					y = -8.3f;	
 				}
 			}
-			Debug.Log (index);
+			//Debug.Log (index);
 			boardSpaces [index] = new Vector3(x,y,z);
 		}
 		
@@ -248,7 +245,7 @@ public class MovePiece : MonoBehaviour {
 			else { //sets non-corner spaces
 				x -= 1.5f;
 			}
-			Debug.Log (index);
+			//Debug.Log (index);
 			boardSpaces [index] = new Vector3(x,y,z);
 		}
 
@@ -276,13 +273,83 @@ public class MovePiece : MonoBehaviour {
 		index = 0;
 
 		//DEBUGGING PURPOSES
-		Debug.Log ("CHECK IF INITIALIZED");
+		/*Debug.Log ("CHECK IF INITIALIZED");
 		for (int i = 0; i < 32; i++) {
 			Debug.Log ("CHECK IF INITIALIZED");
 			Debug.Log (i);
 			Debug.Log (boardSpaces[i]);
+		}*/
+	} //END OF initBoardArray FUNCTION
+
+	//Moves Object Towards Target Location
+	public void moveTowardsTarget(int roll)  {
+		targetIndex += roll;
+
+		//Checks if roll goes passed array
+		switch (targetIndex) {
+		case 37:
+			targetIndex = 5;
+			break;
+		case 36:
+			targetIndex = 4;
+			break;
+		case 35:
+			targetIndex = 3;
+			break;
+		case 34:
+			targetIndex = 2;
+			break;
+		case 33:
+			targetIndex = 1;
+			break;
+		case 32:
+			targetIndex = 0;
+			break;
+		default:
+			break;
 		}
+
+		while (currentIndex != targetIndex) {
+				if(currentIndex == 31) {	//If reach end of boardSpaces array
+					transform.position = Vector3.Lerp (boardSpaces [currentIndex], boardSpaces [0], speed * Time.deltaTime);
+					transform.position = boardSpaces[0];
+					currentIndex=0;
+					if (jail == false || noCollect == false) {
+						Debug.Log ("GO!");
+						//INSERT "PASSING GO" STUFF IN HERE!
+						
+					}
+				}
+				else if (currentIndex == 9 && jail == true) {	//going to jail
+					Debug.Log ("JAIL!");
+					transform.position = Vector3.Lerp (boardSpaces [currentIndex], inJail, speed * Time.deltaTime);
+					transform.position = inJail;
+					currentIndex++;
+					jail = false;
+				}
+				else {	//Traverse one space ahead at a time
+					transform.position = Vector3.Lerp (boardSpaces [currentIndex], boardSpaces [currentIndex + 1], speed * Time.deltaTime);
+					transform.position = boardSpaces[currentIndex+1];
+					currentIndex++;
+
+				}
+		}
+
+	} // End of moveTowardsFunction
+
+	IEnumerator Begin()
+	{
+		yield return StartCoroutine(Wait(5f));
+		//3.1415 seconds later
 	}
+
+	IEnumerator Wait(float delay)
+	{
+		yield return new WaitForSeconds(delay);
+		Debug.Log ("Waited a sec");
+	}
+
+
 
 }
 

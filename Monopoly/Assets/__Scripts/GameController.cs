@@ -36,6 +36,7 @@ public class GameController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		Debug.Log (" ~~~~~~~~~~~~~~~~ GameController");
 		players = new GameObject[5];
 		players [1] = P1;
 		players [2] = P2;
@@ -55,7 +56,6 @@ public class GameController : MonoBehaviour {
 		playerorder [2] = P2;
 		playerorder [3] = P3;
 		playerorder [4] = P4;
-
 	}
 	
 	// Update is called once per frame
@@ -68,45 +68,59 @@ public class GameController : MonoBehaviour {
 	}
 
 	public void ButtonRoll(){
+		Debug.Log ("&&&&&&&&    &&&&&&&&&&&   &&&&&&&&&&&&&&&& ENTER BUTTON ROLL");
 		nextTurn ();
 		diceval [turn] = Dice.Roll ();
 
 		//after initial setup
 		if (initialroll && turn == 4) {
+			Debug.Log ("^$^$^$^$^$^$^  ^$^$^$^$^$^$^$  ^$^$^$^$^$^$^$^$ ENTER INITIAL ROLL");
+
 			initialroll = false;
 
-			diceval[0] = -1;
+			diceval [0] = -1;
 			int counter = 1;
-			while(diceval[0] < 0){
-				int ind = diceval.ToList().IndexOf(diceval.Max());
-				switch(ind){
+			while (diceval[0] < 0) {
+				int ind = diceval.ToList ().IndexOf (diceval.Max ());
+				switch (ind) {
 				case 1:
-					playerorder[counter] = P1;
+					playerorder [counter] = P1;
 					break;
 				case 2:
-					playerorder[counter] = P2;
+					playerorder [counter] = P2;
 					break;
 				case 3:
-					playerorder[counter] = P3;
+					playerorder [counter] = P3;
 					break;
 				case 4:
-					playerorder[counter] = P4;
+					playerorder [counter] = P4;
 					break;
 				default:
 					break;
 				}
 
-				diceval[ind] = 0;
+				diceval [ind] = 0;
 				++counter;
-				if(counter > 4) diceval[0] = 0;
+				if (counter > 4)
+					diceval [0] = 0;
 			}
 
 			return; //no moving on initial roll
-		}
+		} else if (initialroll == true && turn != 4) {	//Rolling for order, do nothing until all 4 players roll
+			Debug.Log ("88888888888888888888888888888 ROLLING FOR ORDER");
+			return; 
+		} else {
+		
 
-		/*call standard functions*/
-		//playerorder[turn].move(diceval[turn]);
-		//whatever function occurs on that space will happen here
+
+			/*call standard functions*/
+			//playerorder[turn].move(diceval[turn]);
+			Debug.Log ("$$$$$ ^^^^^^^^^^ $$$$$$$$$ ^^^^^^^^^ $$$$$$$$$$$$$$$$$$$ END OF ORDER");
+			Debug.Log (playerorder [turn]);
+			Debug.Log (diceval[turn]);
+			playerorder[turn].GetComponent<MovePiece>().moveTowardsTarget(diceval[turn]);
+			//whatever function occurs on that space will happen here
+		}
 	}
 
 	//send index of player (P1 is 1) and amount to add. Negative amount subtracts money.
