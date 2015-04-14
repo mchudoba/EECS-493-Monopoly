@@ -85,18 +85,21 @@ public class MenuInteraction : MonoBehaviour
 
 	public void PlayerNameInput()
 	{
-		if (playerNameField.text == "")
-			startGameButton.interactable = false;
+		if (playerNameField.textComponent.text == "")
+			startGameButton.interactable = true;//false;
 		else
 			startGameButton.interactable = true;
 
+		string str = playerNameField.text;
+		if (str == "")
+			str = "testplayer";
 		PlayerPrefs.SetString("Player Name", playerNameField.text);
 	}
 
 	public void ServerNameInput()
 	{
-		if (serverNameField.text == "")
-			createServerButton.interactable = false;
+		if (serverNameField.textComponent.text == "")
+			createServerButton.interactable = true;//false;
 		else
 			createServerButton.interactable = true;
 	}
@@ -104,6 +107,8 @@ public class MenuInteraction : MonoBehaviour
 	public void CreateServer()
 	{
 		string serverName = serverNameField.text;
+		if (serverName == "")
+			serverName = "test";
 		networkManager.StartServer(serverName);
 	}
 

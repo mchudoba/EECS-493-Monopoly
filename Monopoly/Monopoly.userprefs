@@ -1,13 +1,10 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\__Scripts\Dice.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\__Scripts\MovePiece.cs">
     <Files>
+      <File FileName="Assets\__Scripts\MovePiece.cs" Line="88" Column="32" />
       <File FileName="Assets\__Scripts\Dice.cs" Line="17" Column="41" />
-      <File FileName="Assets\__Scripts\Main_Menu\PlayerLobbyInfo.cs" Line="1" Column="1" />
-      <File FileName="Assets\__Scripts\Main_Menu\MenuInteraction.cs" Line="1" Column="1" />
-      <File FileName="Assets\__Scripts\NetworkManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\__Scripts\Main_Menu\MenuManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\__Scripts\Player.cs" Line="1" Column="1" />
+      <File FileName="Assets\__Scripts\GameController.cs" Line="69" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

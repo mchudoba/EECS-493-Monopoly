@@ -3,32 +3,27 @@ using System.Collections;
 
 public class MovePiece : MonoBehaviour {
 
+	public GameController gc;
 	public Vector3[] boardSpaces; 
 	public Vector3 inJail;
-	private int spaceTotal;
-	public int currentIndex;
-	public int targetIndex;
-	public float speed;
-	public int counter;
-	public static bool jail;
-	public static bool noCollect;
-	public static bool rolled;
-	public static bool initialRoll;
+	private int spaceTotal = 32;	//sets number of spaces of board
+	public int currentIndex = 0;	//sets the piece's current position
+	public int targetIndex = 0;		//sets the piece's target position
+	public float speed = 5f; 		//speed for "Vector3.MoveTowards
+	public int counter = 0; 		//counter used to control how fast pieces move
+	public static bool jail = false; 			//true = in jail, false = free
+	public static bool noCollect = false;		//true = event where you don't collect on go (chance, etc.), false = can collect
+	public static bool rolled = false;
+	public static bool initialRoll = false;		//initial roll still has not been rolled
+
+	public float timer = 0;
 
 	// Use this for initialization
 	void Start () {
-		spaceTotal = 32;	//sets number of spaces of board
+		gc = GameObject.Find ("Interface").GetComponent<GameController> ();
 		initBoardArray ();	//Initializes the space positioning into arrays for each piece
 
-		//Change Variables below for testing purposes:
-		currentIndex = 0;  //sets the piece's current position
-		targetIndex = 0;	//sets the piece's target position 
-		counter = 0;		//counter used to control how fast pieces move
-		speed = 0.5f;		//speed for "Vector3.Lerp
-		jail = false; 		//true = in jail, false = free
-		noCollect = false;	//true = event where you don't collect on go (chance, etc.), false = can collect
-		rolled = false;
-		initialRoll = true; //initial roll still has not been rolled
+		transform.position = boardSpaces [0];
 	}
 	
 	// Update is called once per frame
@@ -62,6 +57,40 @@ public class MovePiece : MonoBehaviour {
 
 		//moveTowardsTarget ();
 
+
+		if (transform.position != boardSpaces[targetIndex]) {
+			if(currentIndex == 31) {	//If reach end of boardSpaces array
+				transform.position = Vector3.MoveTowards (transform.position, boardSpaces [0], speed * Time.deltaTime);
+				//transform.position = boardSpaces[0];
+			}
+			else if (currentIndex == 9 && jail == true) {	//going to jail
+				Debug.Log ("JAIL!");
+				transform.position = Vector3.MoveTowards (transform.position, inJail, speed * Time.deltaTime);
+				//transform.position = inJail;
+				jail = false;
+			}
+			else {	//Traverse one space ahead at a time
+				transform.position = Vector3.MoveTowards (transform.position, boardSpaces [currentIndex + 1], speed * Time.deltaTime);
+				//transform.position = boardSpaces[currentIndex+1];
+				
+			}
+
+			if(transform.position == boardSpaces[(currentIndex + 1) % 32]){
+				if ((jail == false || noCollect == false) && ((currentIndex + 1) % 32 == 0)) {
+					Debug.Log ("GO!");
+
+					int player = 0;
+					if(gameObject.tag == "P1") player = 1;
+					else if (gameObject.tag == "P2") player = 2;
+					else if (gameObject.tag == "P3") player = 3;
+					else player = 4;
+
+					gc.changeMoney(player, 200);
+					
+				}
+				currentIndex = (currentIndex + 1) % 32;
+			}
+		}
 	}
 
 
@@ -284,56 +313,7 @@ public class MovePiece : MonoBehaviour {
 	//Moves Object Towards Target Location
 	public void moveTowardsTarget(int roll)  {
 		targetIndex += roll;
-
-		//Checks if roll goes passed array
-		switch (targetIndex) {
-		case 37:
-			targetIndex = 5;
-			break;
-		case 36:
-			targetIndex = 4;
-			break;
-		case 35:
-			targetIndex = 3;
-			break;
-		case 34:
-			targetIndex = 2;
-			break;
-		case 33:
-			targetIndex = 1;
-			break;
-		case 32:
-			targetIndex = 0;
-			break;
-		default:
-			break;
-		}
-
-		while (currentIndex != targetIndex) {
-				if(currentIndex == 31) {	//If reach end of boardSpaces array
-					transform.position = Vector3.Lerp (boardSpaces [currentIndex], boardSpaces [0], speed * Time.deltaTime);
-					transform.position = boardSpaces[0];
-					currentIndex=0;
-					if (jail == false || noCollect == false) {
-						Debug.Log ("GO!");
-						//INSERT "PASSING GO" STUFF IN HERE!
-						
-					}
-				}
-				else if (currentIndex == 9 && jail == true) {	//going to jail
-					Debug.Log ("JAIL!");
-					transform.position = Vector3.Lerp (boardSpaces [currentIndex], inJail, speed * Time.deltaTime);
-					transform.position = inJail;
-					currentIndex++;
-					jail = false;
-				}
-				else {	//Traverse one space ahead at a time
-					transform.position = Vector3.Lerp (boardSpaces [currentIndex], boardSpaces [currentIndex + 1], speed * Time.deltaTime);
-					transform.position = boardSpaces[currentIndex+1];
-					currentIndex++;
-
-				}
-		}
+		targetIndex %= 32;
 
 	} // End of moveTowardsFunction
 

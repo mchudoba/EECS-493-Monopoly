@@ -64,6 +64,10 @@ public class GameController : MonoBehaviour {
 			tap.gameObject.SetActive (false);
 		} else {
 			tap.gameObject.SetActive(true);
+			if(diceval[turn] > 0 && !initialroll){
+				playerorder[turn].GetComponent<MovePiece>().moveTowardsTarget(diceval[turn]);
+				diceval[turn] = 0;
+			}
 		}
 	}
 
@@ -118,7 +122,7 @@ public class GameController : MonoBehaviour {
 			Debug.Log ("$$$$$ ^^^^^^^^^^ $$$$$$$$$ ^^^^^^^^^ $$$$$$$$$$$$$$$$$$$ END OF ORDER");
 			Debug.Log (playerorder [turn]);
 			Debug.Log (diceval[turn]);
-			playerorder[turn].GetComponent<MovePiece>().moveTowardsTarget(diceval[turn]);
+			//actual movement occurs in update once dice is no longer moving
 			//whatever function occurs on that space will happen here
 		}
 	}

@@ -11,6 +11,7 @@ GameObject:
   - 33: {fileID: 3341784}
   - 65: {fileID: 6586408}
   - 23: {fileID: 2307462}
+  - 114: {fileID: 11414930}
   m_Layer: 0
   m_Name: Cube
   m_TagString: P2
@@ -25,7 +26,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 152276}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.30000019, y: -7.36999989, z: -.25}
+  m_LocalPosition: {x: -4.30000019, y: -7.30000019, z: -.25}
   m_LocalScale: {x: .5, y: .5, z: .5}
   m_Children: []
   m_Father: {fileID: 0}
@@ -73,6 +74,25 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &11414930
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 152276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5cfee09734cec741bbad7cb4157a595, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gc: {fileID: 0}
+  boardSpaces: []
+  inJail: {x: 0, y: 0, z: 0}
+  currentIndex: 0
+  targetIndex: 0
+  speed: 0
+  counter: 0
+  timer: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
