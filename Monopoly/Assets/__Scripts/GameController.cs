@@ -8,9 +8,15 @@ public class GameController : MonoBehaviour {
 	public float initialMoney = 30f;
 
 
-	public GameObject boardUI;
+	public GameObject RollPanel;
 	public Button tap;
 	public Text tapText;
+
+	public GameObject actionPanel;
+	public Button no;
+	public Text information;
+	public Image property;
+	public Image chancecard;
 
 	public GameObject P1;
 	public GameObject P2;
@@ -21,6 +27,8 @@ public class GameController : MonoBehaviour {
 	public int turn = 0;
 
 	public bool initialroll = true;
+
+	public static int tuition = 0;
 
 	//arrays here are 1-indexed, ignore 0
 	public float[] money;

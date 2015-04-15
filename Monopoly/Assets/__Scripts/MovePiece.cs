@@ -18,10 +18,18 @@ public class MovePiece : MonoBehaviour {
 
 	public float timer = 0;
 
+	int player = 0; //which player this is; set in Start
+	
+
 	// Use this for initialization
 	void Start () {
 		gc = GameObject.Find ("Interface").GetComponent<GameController> ();
 		initBoardArray ();	//Initializes the space positioning into arrays for each piece
+
+		if(gameObject.tag == "P1") player = 1;
+		else if (gameObject.tag == "P2") player = 2;
+		else if (gameObject.tag == "P3") player = 3;
+		else player = 4;
 
 		transform.position = boardSpaces [0];
 	}
@@ -66,6 +74,7 @@ public class MovePiece : MonoBehaviour {
 			else if (currentIndex == 9 && jail == true) {	//going to jail
 				Debug.Log ("JAIL!");
 				transform.position = Vector3.MoveTowards (transform.position, inJail, speed * Time.deltaTime);
+				gc.changeMoney(player, -3);
 				//transform.position = inJail;
 				jail = false;
 			}
@@ -79,13 +88,7 @@ public class MovePiece : MonoBehaviour {
 				if ((jail == false || noCollect == false) && ((currentIndex + 1) % 32 == 0)) {
 					Debug.Log ("GO!");
 
-					int player = 0;
-					if(gameObject.tag == "P1") player = 1;
-					else if (gameObject.tag == "P2") player = 2;
-					else if (gameObject.tag == "P3") player = 3;
-					else player = 4;
-
-					gc.changeMoney(player, 200);
+					gc.changeMoney(player, 2);
 					
 				}
 				currentIndex = (currentIndex + 1) % 32;
