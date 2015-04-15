@@ -68,7 +68,7 @@ public class GameController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Dice.rolling) {
+		if (Dice.rolling || actionPanel.activeInHierarchy) {
 			tap.gameObject.SetActive (false);
 		} else {
 			tap.gameObject.SetActive(true);
