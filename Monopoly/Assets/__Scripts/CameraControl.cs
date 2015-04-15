@@ -38,6 +38,10 @@ public class CameraControl : MonoBehaviour
 	
 	void Update()
 	{
+		if(float.IsNaN(transform.position.x) || float.IsNaN(transform.position.y) || float.IsNaN(transform.position.z)){
+			gameObject.transform.position = new Vector3(0,0,-10);
+		}
+
 		if (SidePanelOpener.sidePanelOpen) return;
 
 		if (updateZoomSensitivity)
