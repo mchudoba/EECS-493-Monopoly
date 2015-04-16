@@ -43,35 +43,6 @@ public class MovePiece : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		/*Debug.Log (currentIndex);
-		Debug.Log (targetIndex);
-		Debug.Log ("COUNTER");*/
-	
-		/*Debug.Log (counter);
-		if (Dice.currentSide == 6) {
-			Debug.Log ("IS THIS WORKING LOL?");
-		}
-	
-		Debug.Log (Dice.rolling == false);
-		Debug.Log (rolled);
-		Debug.Log (initialRoll);
-		if (Dice.rolling) { //dice is still rolling/initial, so wait
-			Debug.Log ("Waiting for end of roll/first roll");
-			initialRoll = false;
-			return;
-		} else if (Dice.rolling == false && rolled == true && initialRoll == false) { //dice finished rolling and was rolled
-			Debug.Log ("@@@@@@@@@ MOVE TOWARDS TARGET LOCATION! @@@@@@@@");
-			targetIndex = currentIndex + Dice.currentSide;
-			moveTowardsTarget ();
-			rolled = false;
-		} else { //dice is finished rolling and got to target location and is waiting
-			Debug.Log ("Waiting for next roll");
-			return;
-		}*/
-
-		//moveTowardsTarget ();
-
-
 		if (NotAtTarget()) {
 			if(currentIndex == 31) {	//If reach end of boardSpaces array
 				transform.position = Vector3.MoveTowards (transform.position, boardSpaces [0], speed * Time.deltaTime);
@@ -83,7 +54,7 @@ public class MovePiece : MonoBehaviour {
 				Debug.Log (inJail);
 				Debug.Log (transform.position);
 				//targetIndex = 10; //for space landing:
-				gc.changeMoney(player, -3);
+				//gc.changeMoney(player, -3);
 				//transform.position = inJail;
 			}
 			else {	//Traverse one space ahead at a time

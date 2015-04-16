@@ -220,7 +220,7 @@ public class GameController : MonoBehaviour {
 					break;
 				case 26: //Go to JAIL
 					Debug.Log ("-3$ and Go to JAIL!");
-					changeMoney(playerindex[turn],-3);
+					changeMoney(playerindex[turn],-3f);
 					mps[turn].jail = true;
 					mps[turn].noCollect = true;
 					mps[turn].targetIndex = 10;
@@ -609,11 +609,6 @@ public class GameController : MonoBehaviour {
 		no.gameObject.SetActive (false);
 		property.gameObject.SetActive (false);
 		chancecard.gameObject.SetActive (false);
-
-		if (money [1] <= 0 || money [2] <= 0 || money [3] <= 0 || money [4] <= 0) {
-			okay.gameObject.SetActive(false);
-		}
-
 		Time.timeScale = 0;
 	}
 
@@ -649,6 +644,9 @@ public class GameController : MonoBehaviour {
 			}
 			
 		} else {
+			if (money [1] <= 0 || money [2] <= 0 || money [3] <= 0 || money [4] <= 0) {
+				Application.LoadLevel("Main_Menu");
+			}
 			actionPanel.SetActive (false);
 			Time.timeScale = 1;
 		}
