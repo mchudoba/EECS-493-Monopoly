@@ -19,7 +19,10 @@ public class MovePiece : MonoBehaviour {
 	public float timer = 0;
 
 	int player = 0; //which player this is; set in Start
-	
+
+	public bool NotAtTarget(){
+		return (!jail && transform.position != boardSpaces [targetIndex]) || (jail && transform.position != inJail);
+	}
 
 	// Use this for initialization
 	void Start () {
@@ -66,7 +69,7 @@ public class MovePiece : MonoBehaviour {
 		//moveTowardsTarget ();
 
 
-		if (transform.position != boardSpaces[targetIndex]) {
+		if (NotAtTarget()) {
 			if(currentIndex == 31) {	//If reach end of boardSpaces array
 				transform.position = Vector3.MoveTowards (transform.position, boardSpaces [0], speed * Time.deltaTime);
 				//transform.position = boardSpaces[0];
@@ -79,7 +82,6 @@ public class MovePiece : MonoBehaviour {
 				//targetIndex = 10; //for space landing:
 				gc.changeMoney(player, -3);
 				//transform.position = inJail;
-				jail = false;
 			}
 			else {	//Traverse one space ahead at a time
 				transform.position = Vector3.MoveTowards (transform.position, boardSpaces [currentIndex + 1], speed * Time.deltaTime);
@@ -93,8 +95,16 @@ public class MovePiece : MonoBehaviour {
 
 					gc.changeMoney(player, 2);
 					
-				}
+				} 
+
 				currentIndex = (currentIndex + 1) % 32;
+
+				//decide if turn is over
+				if(currentIndex == targetIndex) gc.nextTurn();
+			}
+
+			if(transform.position == inJail && jail){
+				currentIndex = 9;
 			}
 		}
 	}

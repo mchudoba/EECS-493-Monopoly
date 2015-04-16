@@ -19,30 +19,35 @@ public class GameController : MonoBehaviour {
 	public Image chancecard;
 
 	//Not sure if you need this for something lol:
-	public Image chance1;
-	public Image chance2;
-	public Image chance3;
-	public Image chance4;
-	public Image chance5;
-	public Image chance6;
-	public Image chance7;
-	public Image chance8;
-	public Image chance9;
-	public Image chance10;
-	public Image chance11;
-	public Image chance12;
-	public Image chance13;
-	public Image chance14;
-	public Image chance15;
-	public Image chance16;
-	public Image chance17;
-	public Image chance18;
-	public Image chance19;
-	public Image chance20;
-	public Image chance21;
-	public Image chance22;
-	public Image chance23;
-	public Image chance24;
+	public Sprite chance0;
+	public Sprite chance1;
+	public Sprite chance2;
+	public Sprite chance3;
+	public Sprite chance4;
+	public Sprite chance5;
+	public Sprite chance6;
+	public Sprite chance7;
+	public Sprite chance8;
+	public Sprite chance9;
+	public Sprite chance10;
+	public Sprite chance11;
+	public Sprite chance12;
+	public Sprite chance13;
+	public Sprite chance14;
+	public Sprite chance15;
+	public Sprite chance16;
+	public Sprite chance17;
+	public Sprite chance18;
+	public Sprite chance19;
+	public Sprite chance20;
+	public Sprite chance21;
+	public Sprite chance22;
+	public Sprite chance23;
+
+	public Image[] properties;
+	public Image[] propertyPair;
+	public float[] propertyPrice;
+	public int[] propertyOwner;
 
 	public GameObject P1;
 	public GameObject P2;
@@ -50,7 +55,12 @@ public class GameController : MonoBehaviour {
 	public GameObject P4;
 	public GameObject[] players;
 
-	public int turn = 0;
+	public MovePiece P1mp;
+	public MovePiece P2mp;
+	public MovePiece P3mp;
+	public MovePiece P4mp;
+
+	public int turn = 1;
 
 	public bool initialroll = true;
 
@@ -59,8 +69,9 @@ public class GameController : MonoBehaviour {
 	//arrays here are 1-indexed, ignore 0
 	public float[] money;
 	public int[] diceval;
-	public GameObject[] playerorder;
-	public int[] playerindex;
+	public GameObject[] playerorder; //players in order of turns
+	public int[] playerindex;		 //playerindex[turn] gets you the index of the current player in players[]
+	public MovePiece[] mps;
 
 	//public Image[] chanceDrawPile; 
 	//public Image[] chanceDiscardPile; 
@@ -92,10 +103,16 @@ public class GameController : MonoBehaviour {
 		diceval = new int[5];
 		playerorder = new GameObject[5];
 		playerindex = new int[5];		//playerindex used for input for what player is doing what...essentially an int
+		mps = new MovePiece[5];
 		for (int i = 0; i < 5; ++i) {
 			money [i] = initialMoney;
 			diceval[i] = 0;
 			playerindex[0] = 0;
+		}
+
+		propertyOwner = new int[32];
+		for (int i = 0; i < 32; ++i) {
+			propertyOwner[i] = 0;
 		}
 
 		playerorder [1] = P1;
@@ -103,31 +120,55 @@ public class GameController : MonoBehaviour {
 		playerorder [3] = P3;
 		playerorder [4] = P4;
 
+		P1mp = P1.GetComponent<MovePiece> ();
+		P2mp = P2.GetComponent<MovePiece> ();
+		P3mp = P3.GetComponent<MovePiece> ();
+		P4mp = P4.GetComponent<MovePiece> ();
+
+		mps [1] = P1mp;
+		mps [2] = P2mp;
+		mps [3] = P3mp;
+		mps [4] = P4mp;
+
 		initializeChancePile (); 
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (Dice.rolling || actionPanel.activeInHierarchy) {
+		if (Dice.rolling || actionPanel.activeInHierarchy ||
+		    (P1mp.NotAtTarget() || P2mp.NotAtTarget() || P3mp.NotAtTarget() || P4mp.NotAtTarget())) {
+			//if the die is rolling, or the actionpanel is up, or a piece is moving,
+			//	disallow tap to roll
 			tap.gameObject.SetActive (false);
 		} else {
-			tap.gameObject.SetActive(true);
+			if(!(tap.gameObject.activeInHierarchy)){
+				if(mps[turn].jail){
+					mps[turn].jail = false;
+					mps[turn].noCollect = false;
+					return;
+				}
+				tap.gameObject.SetActive(true);
+			}
+
 			if(diceval[turn] > 0 && !initialroll){
-				playerorder[turn].GetComponent<MovePiece>().moveTowardsTarget(diceval[turn]);
+				mps[turn].moveTowardsTarget(diceval[turn]);
+				tap.gameObject.SetActive(false);
 
 				//Debugging Stuff:
 				Debug.Log ("CHECK WHERE LAND");
-				Debug.Log (tuition);
-				Debug.Log (playerorder[turn].GetComponent<MovePiece>().targetIndex);
+				Debug.Log ("tuition = " + tuition);
+				Debug.Log ("target = " + mps[turn].targetIndex);
 
 				//Does something depending on what space it lands:
-				switch (playerorder[turn].GetComponent<MovePiece>().targetIndex) {
+				switch (mps[turn].targetIndex) {
 				case 0: //GO!
 					Debug.Log("Land on GO!");
 					//Nothing, should Add $200 in MovePiece.cs *Parthiv implemented*
+					diceval[turn] = 0;
 					break;
 				case 3: case 7: case 14: case 18: case 24: case 28: //CHANCE SPACES
 					landOnChance(playerindex[turn]);
+					diceval[turn] = 0;
 					break;
 				case 5: case 20: //Pay $2 to Participate in the Hackathon/ Design expo
 					Debug.Log ("Pay $2 to Participate");
@@ -135,44 +176,51 @@ public class GameController : MonoBehaviour {
 					changeMoney(playerindex[turn], -2);
 					//Add money to "Free Tuition" 
 					tuition += 2;
+					diceval[turn] = 0;
 					break;
 				case 6: case 11: case 22: case 30: //ROLL AGAIN! Northwood, Commuter/Souther, Bursley/Baits, Diag
 					//Roll again
 					Debug.Log ("Roll Again");
 					turn--;
 					//ButtonRoll ();
+					diceval[turn + 1] = 0;
 					break;	
 				case 10: //Visiting
 					//DO NOTHING!
 					Debug.Log ("Just Visiting");
+					diceval[turn] = 0;
 					break;
 				case 16: //FREE TUITION
 					//Collect all the money that is stocked up on this space
 					Debug.Log ("Free Tuition");
 					changeMoney(playerindex[turn], tuition);
 					tuition = 0; 
+					diceval[turn] = 0;
 					break;
 				case 26: //Go to JAIL
 					Debug.Log ("-3$ and Go to JAIL!");
 					changeMoney(playerindex[turn],-3);
-					playerorder[turn].GetComponent<MovePiece>().jail = true;
-					playerorder[turn].GetComponent<MovePiece>().targetIndex = 10;
+					mps[turn].jail = true;
+					mps[turn].noCollect = true;
+					mps[turn].targetIndex = 10;
+					showMessage("Go to GG Brown, get lost, and lose a turn.");
+					diceval[turn] = 0;
+					nextTurn();
 					break;
 				default: //Properties:
 					Debug.Log ("Property!");
 					//INSERT PROPERTY IMPLEMENTATION:
 
+					diceval[turn] = 0;
 					break;
 				}
 
-				diceval[turn] = 0;
 			}
 		}
 	}
 
 	public void ButtonRoll(){
 		Debug.Log ("&&&&&&&&    &&&&&&&&&&&   &&&&&&&&&&&&&&&& ENTER BUTTON ROLL");
-		nextTurn ();
 		diceval [turn] = Dice.Roll ();
 
 		//after initial setup
@@ -189,18 +237,22 @@ public class GameController : MonoBehaviour {
 				case 1:
 					playerorder [counter] = P1;
 					playerindex [counter] = 1;
+					mps[counter] = P1mp;
 					break;
 				case 2:
 					playerorder [counter] = P2;
 					playerindex [counter] = 2;
+					mps[counter] = P2mp;
 					break;
 				case 3:
 					playerorder [counter] = P3;
 					playerindex [counter] = 3;
+					mps[counter] = P3mp;
 					break;
 				case 4:
 					playerorder [counter] = P4;
 					playerindex [counter] = 4;
+					mps[counter] = P4mp;
 					break;
 				default:
 					break;
@@ -215,6 +267,7 @@ public class GameController : MonoBehaviour {
 			return; //no moving on initial roll
 		} else if (initialroll == true && turn != 4) {	//Rolling for order, do nothing until all 4 players roll
 			Debug.Log ("88888888888888888888888888888 ROLLING FOR ORDER");
+			nextTurn();
 			return; 
 		} else {
 		
@@ -244,8 +297,8 @@ public class GameController : MonoBehaviour {
 		chanceIndex = Random.Range (0, chanceDrawPile.Count); //Get random card
 
 		//Debugging/Testing Purposes:
-		Debug.Log (chanceIndex);
-		Debug.Log (chanceDrawPile.Count);
+		Debug.Log ("chanceIndex = " + chanceIndex);
+		Debug.Log ("chanceDrawPile.Count = " + chanceDrawPile.Count);
 		//chanceIndex = 7; //testing variable
 
 		//Goes to chanceDrawPile, gets corresponding Chance Card, does Action:
@@ -254,26 +307,32 @@ public class GameController : MonoBehaviour {
 			Debug.Log ("Go to the Art & Architecture Building");
 			//Space 13:
 			//NEED TO PUT SOMETHING TO MAKE IT STOP/THE INTERFACE STUFF
-			playerorder[turn].GetComponent<MovePiece>().targetIndex = 13;
+			showChanceCard(chance0);
+			mps[turn].targetIndex = 13;
 			//Is the GO thing working? Yes
 			Debug.Log ("Add Property interface/function");
 			break;
 		case 1:
 			Debug.Log ("Ride on Bursley-Baits Bus and roll again");
 			//Space 22:
-			playerorder[turn].GetComponent<MovePiece>().targetIndex = 22;
+			showChanceCard(chance1);
+			mps[turn].targetIndex = 22;
 			turn--;
+			diceval[turn + 1] = 0;
 			break;
 		case 2:
 			Debug.Log ("Ride on Commuter North/South Bus and roll again");
 			//Space 11:
-			playerorder[turn].GetComponent<MovePiece>().targetIndex = 11;
+			showChanceCard(chance2);
+			mps[turn].targetIndex = 11;
 			turn--;
+			diceval[turn + 1] = 0;
 			break;
 		case 3:
 			Debug.Log ("Go to the Design Expo and pay $2");
 			//Space 20:
-			playerorder[turn].GetComponent<MovePiece>().targetIndex = 20;
+			showChanceCard(chance3);
+			mps[turn].targetIndex = 20;
 			Debug.Log ("Pay $2 to Participate");
 			//Change money on player 
 			changeMoney(playerindex[turn],-2);
@@ -283,37 +342,43 @@ public class GameController : MonoBehaviour {
 		case 4:
 			Debug.Log ("Ride on Diag-to-Diag Bus and roll again");
 			//Space 30:
-			playerorder[turn].GetComponent<MovePiece>().targetIndex = 30;
+			showChanceCard(chance4);
+			mps[turn].targetIndex = 30;
 			turn--;
+			diceval[turn + 1] = 0;
 			break;
 		case 5:
 			Debug.Log ("Go to the DUDE");
 			//Space 12:
-			playerorder[turn].GetComponent<MovePiece>().targetIndex = 12;
+			showChanceCard(chance5);
+			mps[turn].targetIndex = 12;
 			Debug.Log ("Add Property interface/function");
 			break;
 		case 6:
 			Debug.Log ("Go to the EECS Building");
 			//Space 29:
-			playerorder[turn].GetComponent<MovePiece>().targetIndex = 29;
+			showChanceCard(chance6);
+			mps[turn].targetIndex = 29;
 			Debug.Log ("Add Property interface/function");
 			break;
 		case 7:
 			Debug.Log ("Pay $3 to take the bus to GG Brown Laboratory");
-			//Space JAIL:
+			//Space 10:
+			showChanceCard(chance7);
 			changeMoney(playerindex[turn], -3);
-			playerorder[turn].GetComponent<MovePiece>().jail = true;
-			playerorder[turn].GetComponent<MovePiece>().targetIndex = 10;
+			mps[turn].targetIndex = 10;
 			break;
 		case 8:
 			Debug.Log ("Go to Go Blue! Collect $2 pocket money as you pass");
 			//Space 0:
-			playerorder[turn].GetComponent<MovePiece>().targetIndex = 0;
+			showChanceCard(chance8);
+			mps[turn].targetIndex = 0;
 			break;
 		case 9:
 			Debug.Log ("Go to the Hackathon and pay $2");
 			//Space 5:
-			playerorder[turn].GetComponent<MovePiece>().targetIndex = 5;
+			showChanceCard(chance9);
+			mps[turn].targetIndex = 5;
 			Debug.Log ("Pay $2 to Participate");
 			//Change money on player 
 			changeMoney(playerindex[turn],-2);
@@ -323,72 +388,88 @@ public class GameController : MonoBehaviour {
 		case 10:
 			Debug.Log ("Ride on Northwood Bus and roll again");
 			//Space 6:
-			playerorder[turn].GetComponent<MovePiece>().targetIndex = 6;
+			showChanceCard(chance10);
+			mps[turn].targetIndex = 6;
 			turn--;
+			diceval[turn + 1] = 0;
 			break;
 		case 11: 
 			Debug.Log ("Go to the Space Research Building");
 			//Space 25:
-			playerorder[turn].GetComponent<MovePiece>().targetIndex = 25;
+			showChanceCard(chance11);
+			mps[turn].targetIndex = 25;
 			Debug.Log ("Add Property interface/function");
 			break;
 		case 12:
 			Debug.Log ("Free Pizza Stand Green"); 
 			//INSERT Function for free pizza stands
+			showChanceCard(chance12);
+
 			break;
 		case 13:
 			Debug.Log ("Free Pizza Stand Light Blue"); 
 			//INSERT Function for free pizza stands
+			showChanceCard(chance13);
 
 			break;
 		case 14:
 			Debug.Log ("Free Pizza Stand Light Blue"); 
 			//INSERT Function for free pizza stands
+			showChanceCard(chance14);
 
 			break;
 		case 15: 
 			Debug.Log ("Free Pizza Stand Orange");
 			//INSERT Function for free pizza stands
+			showChanceCard(chance15);
 
 			break;
 		case 16: 
 			Debug.Log ("Free Pizza Stand Orange"); 
 			//INSERT Function for free pizza stands
+			showChanceCard(chance16);
 
 			break;
 		case 17: 
 			Debug.Log ("Free Pizza Stand Purple"); 
 			//INSERT Function for free pizza stands
+			showChanceCard(chance17);
 
 			break;
 		case 18: 
 			Debug.Log ("Free Pizza Stand Red"); 
 			//INSERT Function for free pizza stands
+			showChanceCard(chance18);
 
 			break;
 		case 19:
 			Debug.Log ("Free Pizza Stand Red");
 			//INSERT Function for free pizza stands
+			showChanceCard(chance19);
 
 			break;
 		case 20: 
-			Debug.Log ("Free Pizza Stand Light Blue"); 			
+			Debug.Log ("Free Pizza Stand Royal Blue"); 			
 			//INSERT Function for free pizza stands
+			showChanceCard(chance20);
 
 			break;
 		case 21: 
-			Debug.Log ("Free Pizza Stand Light Blue"); 
+			Debug.Log ("Free Pizza Stand Royal Blue"); 
 			//INSERT Function for free pizza stands
+			showChanceCard(chance21);
 
 			break;
 		case 22: 
 			Debug.Log ("Free Pizza Stand Yellow"); 			
 			//INSERT Function for free pizza stands
+			showChanceCard(chance22);
 
 			break;
 		case 23: 
 			Debug.Log ("Free Pizza Stand Yellow"); 
 			//INSERT Function for free pizza stands
+			showChanceCard(chance23);
 
 			break;
 		} //End of conditionals for drawn chance card
@@ -424,8 +505,58 @@ public class GameController : MonoBehaviour {
 		for (int i = 0; i < numChance; i++) {
 			chanceDrawPile.Add(i);
 		}
-			
+	}
+
+	public void handleProperty(int index){
+		if (propertyPrice [index] == 0)
+			return; //not property
+
 
 	}
-	
+
+	public void showChanceCard(Sprite card){
+		tap.gameObject.SetActive (false);
+		actionPanel.SetActive(true);
+		information.text = "Chance Card";
+		no.gameObject.SetActive (false);
+		property.gameObject.SetActive (false);
+		chancecard.gameObject.SetActive (true);
+		chancecard.sprite = card;
+		Time.timeScale = 0;
+	}
+
+	public void showProperty(Sprite card){
+		tap.gameObject.SetActive (false);
+		actionPanel.SetActive(true);
+		information.text = "Buy Property?";
+		no.gameObject.SetActive (true);
+		property.gameObject.SetActive (true);
+		chancecard.gameObject.SetActive (false);
+		chancecard.sprite = card;
+		Time.timeScale = 0;
+	}
+
+	public void showMessage(string msg){
+		tap.gameObject.SetActive (false);
+		actionPanel.SetActive(true);
+		information.text = msg;
+		no.gameObject.SetActive (false);
+		property.gameObject.SetActive (false);
+		chancecard.gameObject.SetActive (false);
+		Time.timeScale = 0;
+	}
+
+	public void NoButton(){
+		actionPanel.SetActive (false);
+		Time.timeScale = 1;
+	}
+
+	public void OkayButton(){
+		if (property.gameObject.activeInHierarchy){
+			//property functions here
+		}
+
+		actionPanel.SetActive (false);
+		Time.timeScale = 1;
+	}
 }

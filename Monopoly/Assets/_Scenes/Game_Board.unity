@@ -177,7 +177,7 @@ GameObject:
   - 114: {fileID: 22307820}
   - 114: {fileID: 22307819}
   m_Layer: 5
-  m_Name: Tile
+  m_Name: 17
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -284,7 +284,7 @@ GameObject:
   - 114: {fileID: 35103738}
   - 114: {fileID: 35103737}
   m_Layer: 5
-  m_Name: Tile
+  m_Name: 31
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -387,7 +387,7 @@ GameObject:
   - 114: {fileID: 52767234}
   - 114: {fileID: 52767233}
   m_Layer: 5
-  m_Name: Tile
+  m_Name: 18
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -787,7 +787,7 @@ GameObject:
   - 114: {fileID: 129732932}
   - 114: {fileID: 129732931}
   m_Layer: 5
-  m_Name: Tile
+  m_Name: 8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -890,7 +890,7 @@ GameObject:
   - 114: {fileID: 149053747}
   - 114: {fileID: 149053746}
   m_Layer: 5
-  m_Name: Tile
+  m_Name: 24
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1159,16 +1159,151 @@ MonoBehaviour:
   information: {fileID: 1264494991}
   property: {fileID: 1357548268}
   chancecard: {fileID: 2063362824}
+  chance0: {fileID: 21300000, guid: 7b57f5cbbfde38847b71464c18298de3, type: 3}
+  chance1: {fileID: 21300000, guid: 741c275dcc4730440b0c7b704ff1229e, type: 3}
+  chance2: {fileID: 21300000, guid: 20a89630529c0584caf0f9e202306890, type: 3}
+  chance3: {fileID: 21300000, guid: 369b4b133323f8749ade497d2e27cd22, type: 3}
+  chance4: {fileID: 21300000, guid: 5e82dea15976db14fbec3740031f0a54, type: 3}
+  chance5: {fileID: 21300000, guid: 27f370b1e77ceeb419d634df9cc87c2b, type: 3}
+  chance6: {fileID: 21300000, guid: 69c4fb39f118b384aa8493834e154225, type: 3}
+  chance7: {fileID: 21300000, guid: 0147ae31bd4fe2248a4f9738bfa7de54, type: 3}
+  chance8: {fileID: 21300000, guid: 87cbbf74cfc68de4cba53b01b03c4863, type: 3}
+  chance9: {fileID: 21300000, guid: ca99eb531139dcd45a3d46222b7e0b37, type: 3}
+  chance10: {fileID: 21300000, guid: 9f777a3780bd9e247898cfe3a46443df, type: 3}
+  chance11: {fileID: 21300000, guid: f501eee00faab2a49b5aa94f43d88551, type: 3}
+  chance12: {fileID: 21300000, guid: ea45ff7e16c43b04099d1a9d02bb44cf, type: 3}
+  chance13: {fileID: 21300000, guid: 9793f5eed8b53824d8c5152ee15a3341, type: 3}
+  chance14: {fileID: 21300000, guid: 8af69470c965033408bb61a0f36b78a0, type: 3}
+  chance15: {fileID: 21300000, guid: 669e46364b0b27b44b6c12c8809e374c, type: 3}
+  chance16: {fileID: 21300000, guid: cf239b15194cc4e48aaa2c1fcd5bfedc, type: 3}
+  chance17: {fileID: 21300000, guid: 5587f59723316f944b23ef9816c40ec4, type: 3}
+  chance18: {fileID: 21300000, guid: 06dc09f1b05b42e43aa8aad847bbc657, type: 3}
+  chance19: {fileID: 21300000, guid: d61aceee387ba2f4db196936df4fcfe4, type: 3}
+  chance20: {fileID: 21300000, guid: 28f8b5f504e56804e9c806cbd32363ce, type: 3}
+  chance21: {fileID: 21300000, guid: 9d0c7825a92f13e45bc1a863f5541441, type: 3}
+  chance22: {fileID: 21300000, guid: 9bb517011afec7343bb2fe9030841e8e, type: 3}
+  chance23: {fileID: 21300000, guid: ff9a747f86d621a40a25e451f09d2771, type: 3}
+  properties:
+  - {fileID: 0}
+  - {fileID: 268267743}
+  - {fileID: 1167420354}
+  - {fileID: 0}
+  - {fileID: 1009947535}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 129732932}
+  - {fileID: 731176376}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 160111849}
+  - {fileID: 271226340}
+  - {fileID: 0}
+  - {fileID: 1106948895}
+  - {fileID: 0}
+  - {fileID: 22307820}
+  - {fileID: 0}
+  - {fileID: 205221749}
+  - {fileID: 0}
+  - {fileID: 1620992077}
+  - {fileID: 0}
+  - {fileID: 1209545785}
+  - {fileID: 0}
+  - {fileID: 1574761171}
+  - {fileID: 0}
+  - {fileID: 386190984}
+  - {fileID: 0}
+  - {fileID: 591077574}
+  - {fileID: 0}
+  - {fileID: 35103738}
+  propertyPair:
+  - {fileID: 0}
+  - {fileID: 1167420354}
+  - {fileID: 268267743}
+  - {fileID: 0}
+  - {fileID: 129732932}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 1009947535}
+  - {fileID: 160111849}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 731176376}
+  - {fileID: 1106948895}
+  - {fileID: 0}
+  - {fileID: 271226340}
+  - {fileID: 0}
+  - {fileID: 205221749}
+  - {fileID: 0}
+  - {fileID: 22307820}
+  - {fileID: 0}
+  - {fileID: 1620992077}
+  - {fileID: 0}
+  - {fileID: 1209545785}
+  - {fileID: 0}
+  - {fileID: 386190984}
+  - {fileID: 0}
+  - {fileID: 1574761171}
+  - {fileID: 0}
+  - {fileID: 35103738}
+  - {fileID: 0}
+  - {fileID: 591077574}
+  propertyPrice:
+  - 0
+  - 1
+  - 1
+  - 0
+  - 1
+  - 0
+  - 0
+  - 0
+  - 1
+  - 2
+  - 0
+  - 0
+  - 2
+  - 3
+  - 0
+  - 3
+  - 0
+  - 3
+  - 0
+  - 3
+  - 0
+  - 4
+  - 0
+  - 4
+  - 0
+  - 4
+  - 0
+  - 4
+  - 0
+  - 5
+  - 0
+  - 5
+  propertyOwner: 
   P1: {fileID: 31248736}
   P2: {fileID: 1939458511}
   P3: {fileID: 1083724044}
   P4: {fileID: 6563823}
   players: []
-  turn: 0
+  P1mp: {fileID: 0}
+  P2mp: {fileID: 0}
+  P3mp: {fileID: 0}
+  P4mp: {fileID: 0}
+  turn: 1
   initialroll: 1
   money: []
   diceval: 
   playerorder: []
+  playerindex: 
+  mps: []
+  chanceDrawPile: 
+  chanceDiscardPile: 
+  chanceIndex: 0
+  discardIndex: 0
+  numChance: 0
 --- !u!1 &160111846
 GameObject:
   m_ObjectHideFlags: 0
@@ -1181,7 +1316,7 @@ GameObject:
   - 114: {fileID: 160111849}
   - 114: {fileID: 160111848}
   m_Layer: 5
-  m_Name: Tile
+  m_Name: 12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1330,7 +1465,7 @@ GameObject:
   - 114: {fileID: 169153810}
   - 114: {fileID: 169153809}
   m_Layer: 5
-  m_Name: Tile
+  m_Name: 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1470,7 +1605,7 @@ GameObject:
   - 114: {fileID: 205221749}
   - 114: {fileID: 205221748}
   m_Layer: 5
-  m_Name: Tile
+  m_Name: 19
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1573,7 +1708,7 @@ GameObject:
   - 114: {fileID: 225645636}
   - 114: {fileID: 225645635}
   m_Layer: 5
-  m_Name: Tile
+  m_Name: 11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1676,7 +1811,7 @@ GameObject:
   - 114: {fileID: 227642122}
   - 114: {fileID: 227642121}
   m_Layer: 5
-  m_Name: Tile
+  m_Name: 5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1779,7 +1914,7 @@ GameObject:
   - 114: {fileID: 268267743}
   - 114: {fileID: 268267742}
   m_Layer: 5
-  m_Name: Tile
+  m_Name: 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1882,7 +2017,7 @@ GameObject:
   - 114: {fileID: 271226340}
   - 114: {fileID: 271226339}
   m_Layer: 5
-  m_Name: Tile
+  m_Name: 13
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2156,7 +2291,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 159017380}
-        m_MethodName: ButtonRoll
+        m_MethodName: OkayButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2322,7 +2457,7 @@ GameObject:
   - 114: {fileID: 386190984}
   - 114: {fileID: 386190983}
   m_Layer: 5
-  m_Name: Tile
+  m_Name: 27
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2425,7 +2560,7 @@ GameObject:
   - 114: {fileID: 426223975}
   - 114: {fileID: 426223974}
   m_Layer: 5
-  m_Name: Tile
+  m_Name: 20
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2528,7 +2663,7 @@ GameObject:
   - 114: {fileID: 433864069}
   - 114: {fileID: 433864068}
   m_Layer: 5
-  m_Name: Tile
+  m_Name: 6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2631,7 +2766,7 @@ GameObject:
   - 114: {fileID: 437261310}
   - 114: {fileID: 437261309}
   m_Layer: 5
-  m_Name: Tile
+  m_Name: 22
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2892,7 +3027,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 159017380}
-        m_MethodName: ButtonRoll
+        m_MethodName: NoButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3010,7 +3145,7 @@ GameObject:
   - 114: {fileID: 591077574}
   - 114: {fileID: 591077573}
   m_Layer: 5
-  m_Name: Tile
+  m_Name: 29
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3113,7 +3248,7 @@ GameObject:
   - 114: {fileID: 682876812}
   - 114: {fileID: 682876811}
   m_Layer: 5
-  m_Name: Tile
+  m_Name: 28
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3331,7 +3466,7 @@ GameObject:
   - 114: {fileID: 731176376}
   - 114: {fileID: 731176375}
   m_Layer: 5
-  m_Name: Tile
+  m_Name: 9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3554,7 +3689,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &768231651
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3665,7 +3800,7 @@ GameObject:
   - 114: {fileID: 820329396}
   - 114: {fileID: 820329395}
   m_Layer: 5
-  m_Name: Tile
+  m_Name: 7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3971,7 +4106,7 @@ GameObject:
   - 114: {fileID: 1009947535}
   - 114: {fileID: 1009947534}
   m_Layer: 5
-  m_Name: Tile
+  m_Name: 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4078,7 +4213,7 @@ GameObject:
   - 114: {fileID: 1106948895}
   - 114: {fileID: 1106948894}
   m_Layer: 5
-  m_Name: Tile
+  m_Name: 15
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4181,7 +4316,7 @@ GameObject:
   - 114: {fileID: 1167420354}
   - 114: {fileID: 1167420353}
   m_Layer: 5
-  m_Name: Tile
+  m_Name: 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4284,7 +4419,7 @@ GameObject:
   - 114: {fileID: 1209545785}
   - 114: {fileID: 1209545784}
   m_Layer: 5
-  m_Name: Tile
+  m_Name: 23
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4503,7 +4638,7 @@ GameObject:
   - 114: {fileID: 1237320229}
   - 114: {fileID: 1237320228}
   m_Layer: 5
-  m_Name: Tile
+  m_Name: 30
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4606,7 +4741,7 @@ GameObject:
   - 114: {fileID: 1245901085}
   - 114: {fileID: 1245901084}
   m_Layer: 5
-  m_Name: GGBrown
+  m_Name: 10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4902,7 +5037,7 @@ GameObject:
   - 114: {fileID: 1411256769}
   - 114: {fileID: 1411256768}
   m_Layer: 5
-  m_Name: Tuition
+  m_Name: 16
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5105,7 +5240,7 @@ GameObject:
   - 114: {fileID: 1574761171}
   - 114: {fileID: 1574761170}
   m_Layer: 5
-  m_Name: Tile
+  m_Name: 25
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5208,7 +5343,7 @@ GameObject:
   - 114: {fileID: 1606570993}
   - 114: {fileID: 1606570992}
   m_Layer: 5
-  m_Name: LostInGGBrown
+  m_Name: 26
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5311,7 +5446,7 @@ GameObject:
   - 114: {fileID: 1620992077}
   - 114: {fileID: 1620992076}
   m_Layer: 5
-  m_Name: Tile
+  m_Name: 21
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5414,7 +5549,7 @@ GameObject:
   - 114: {fileID: 1649078071}
   - 114: {fileID: 1649078070}
   m_Layer: 5
-  m_Name: Go
+  m_Name: 0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5922,7 +6057,7 @@ GameObject:
   - 114: {fileID: 2113711221}
   - 114: {fileID: 2113711220}
   m_Layer: 5
-  m_Name: Tile
+  m_Name: 14
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
