@@ -16,6 +16,8 @@ public class MovePiece : MonoBehaviour {
 	public bool rolled = false;
 	public bool initialRoll = false;		//initial roll still has not been rolled
 
+	public Color playercolor;
+
 	public float timer = 0;
 
 	int player = 0; //which player this is; set in Start
@@ -26,6 +28,7 @@ public class MovePiece : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		playercolor = GetComponent<Renderer> ().material.color;
 		gc = GameObject.Find ("Interface").GetComponent<GameController> ();
 		initBoardArray ();	//Initializes the space positioning into arrays for each piece
 

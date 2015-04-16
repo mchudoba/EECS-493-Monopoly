@@ -45,9 +45,10 @@ public class GameController : MonoBehaviour {
 	public Sprite chance23;
 
 	public Image[] properties;
-	public Image[] propertyPair;
+	public int[] propertyPair;
 	public float[] propertyPrice;
 	public int[] propertyOwner;
+	public int propertyActionIndex = 0; //used to specify which property is being bought
 
 	public GameObject P1;
 	public GameObject P2;
@@ -511,7 +512,24 @@ public class GameController : MonoBehaviour {
 		if (propertyPrice [index] == 0)
 			return; //not property
 
+		if (propertyOwner [index] == playerindex [turn])
+			return; //already owned
 
+		if (propertyOwner [index] != 0) { //someone else owns
+			float price = propertyPrice [index];
+
+			if (propertyOwner [index] == propertyOwner [propertyPair [index]])
+				price *= 2; //owner has both spaces in pair
+
+			money [playerindex [turn]] -= price;
+			money [propertyOwner [index]] += price;
+
+			return;
+		}
+
+		//buy a property
+		propertyActionIndex = index;
+		showProperty (properties[index].sprite);
 	}
 
 	public void showChanceCard(Sprite card){
@@ -553,7 +571,9 @@ public class GameController : MonoBehaviour {
 
 	public void OkayButton(){
 		if (property.gameObject.activeInHierarchy){
-			//property functions here
+			properties[propertyActionIndex].color = mps[turn].playercolor;
+			propertyOwner[propertyActionIndex] = playerindex[turn];
+			money[playerindex[turn]] -= propertyPrice[propertyActionIndex];
 		}
 
 		actionPanel.SetActive (false);
