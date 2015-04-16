@@ -11,10 +11,10 @@ public class MovePiece : MonoBehaviour {
 	public int targetIndex = 0;		//sets the piece's target position
 	public float speed = 5f; 		//speed for "Vector3.MoveTowards
 	public int counter = 0; 		//counter used to control how fast pieces move
-	public static bool jail = false; 			//true = in jail, false = free
-	public static bool noCollect = false;		//true = event where you don't collect on go (chance, etc.), false = can collect
-	public static bool rolled = false;
-	public static bool initialRoll = false;		//initial roll still has not been rolled
+	public bool jail = false; 			//true = in jail, false = free
+	public bool noCollect = false;		//true = event where you don't collect on go (chance, etc.), false = can collect
+	public bool rolled = false;
+	public bool initialRoll = false;		//initial roll still has not been rolled
 
 	public float timer = 0;
 
@@ -74,6 +74,9 @@ public class MovePiece : MonoBehaviour {
 			else if (currentIndex == 9 && jail == true) {	//going to jail
 				Debug.Log ("JAIL!");
 				transform.position = Vector3.MoveTowards (transform.position, inJail, speed * Time.deltaTime);
+				Debug.Log (inJail);
+				Debug.Log (transform.position);
+				//targetIndex = 10; //for space landing:
 				gc.changeMoney(player, -3);
 				//transform.position = inJail;
 				jail = false;
