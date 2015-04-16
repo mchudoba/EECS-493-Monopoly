@@ -15,9 +15,9 @@ public class TextDebug : MonoBehaviour
 
 	void Update()
 	{
-		float x = cam.transform.position.x;
+		/*float x = cam.transform.position.x;
 		float y = cam.transform.position.y;
-		pos.text = "Camera X: " + x.ToString("F2") + "\nCamera Y: " + y.ToString("F2");
+		pos.text = "Camera X: " + x.ToString("F2") + "\nCamera Y: " + y.ToString("F2");*/
 	}
 
 	public void RestartLevel()

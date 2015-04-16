@@ -1,11 +1,31 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\__Scripts\MovePiece.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\__Scripts\Dice.cs">
     <Files>
-      <File FileName="Assets\__Scripts\MovePiece.cs" Line="88" Column="32" />
-      <File FileName="Assets\__Scripts\Dice.cs" Line="17" Column="41" />
-      <File FileName="Assets\__Scripts\GameController.cs" Line="69" Column="1" />
+      <File FileName="Assets\__Scripts\GameController.cs" Line="318" Column="17" />
+      <File FileName="Assets\__Scripts\MovePiece.cs" Line="106" Column="37" />
+      <File FileName="Assets\__Scripts\Dice.cs" Line="36" Column="10" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="Assembly-CSharp" expanded="True">
+            <Node name="__Scripts" expanded="True">
+              <Node name="Dice.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="ClassPad">
+        <State expanded="True" selected="True" />
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State>
+          <Value>this.gc.turn</Value>
+          <Value>turn</Value>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />

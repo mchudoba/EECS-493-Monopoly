@@ -7,6 +7,7 @@ using System.Linq;
 public class GameController : MonoBehaviour {
 	public float initialMoney = 30f;
 
+	public Text debugText;
 
 	public GameObject RollPanel;
 	public Button tap;
@@ -14,6 +15,7 @@ public class GameController : MonoBehaviour {
 
 	public GameObject actionPanel;
 	public Button no;
+	public Button okay;
 	public Text information;
 	public Image property;
 	public Image chancecard;
@@ -136,6 +138,24 @@ public class GameController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+		debugText.text = "P1: $" + money [1].ToString ("F0") + "   P2: $" + money [2].ToString ("F0")
+			+ "\nP3: $" + money [3].ToString ("F0") + "   P4: $" + money [4].ToString ("F0");
+
+		if (money [1] <= 0 || money [2] <= 0 || money [3] <= 0 || money [4] <= 0) {
+			int maxindex = 1;
+			float maxval = 0;
+			for(int i = 1; i < 5; ++i){
+				if(maxval < money[i]){
+					maxval = money[i];
+					maxindex = i;
+				}
+			}
+
+			showMessage("Player " + maxindex + " wins with $" + maxval.ToString("F0") + "!");
+
+		}
+
 		if (Dice.rolling || actionPanel.activeInHierarchy ||
 		    (P1mp.NotAtTarget() || P2mp.NotAtTarget() || P3mp.NotAtTarget() || P4mp.NotAtTarget())) {
 			//if the die is rolling, or the actionpanel is up, or a piece is moving,
@@ -211,7 +231,7 @@ public class GameController : MonoBehaviour {
 				default: //Properties:
 					Debug.Log ("Property!");
 					//INSERT PROPERTY IMPLEMENTATION:
-
+					handleProperty(mps[turn].targetIndex);
 					diceval[turn] = 0;
 					break;
 				}
@@ -405,73 +425,73 @@ public class GameController : MonoBehaviour {
 			Debug.Log ("Free Pizza Stand Green"); 
 			//INSERT Function for free pizza stands
 			showChanceCard(chance12);
-
+			freeProperty(25);
 			break;
 		case 13:
 			Debug.Log ("Free Pizza Stand Light Blue"); 
 			//INSERT Function for free pizza stands
 			showChanceCard(chance13);
-
+			freeProperty(4);
 			break;
 		case 14:
 			Debug.Log ("Free Pizza Stand Light Blue"); 
 			//INSERT Function for free pizza stands
 			showChanceCard(chance14);
-
+			freeProperty(4);
 			break;
 		case 15: 
 			Debug.Log ("Free Pizza Stand Orange");
 			//INSERT Function for free pizza stands
 			showChanceCard(chance15);
-
+			freeProperty(17);
 			break;
 		case 16: 
 			Debug.Log ("Free Pizza Stand Orange"); 
 			//INSERT Function for free pizza stands
 			showChanceCard(chance16);
-
+			freeProperty(17);
 			break;
 		case 17: 
 			Debug.Log ("Free Pizza Stand Purple"); 
 			//INSERT Function for free pizza stands
 			showChanceCard(chance17);
-
+			freeProperty(1);
 			break;
 		case 18: 
 			Debug.Log ("Free Pizza Stand Red"); 
 			//INSERT Function for free pizza stands
 			showChanceCard(chance18);
-
+			freeProperty(13);
 			break;
 		case 19:
 			Debug.Log ("Free Pizza Stand Red");
 			//INSERT Function for free pizza stands
 			showChanceCard(chance19);
-
+			freeProperty(13);
 			break;
 		case 20: 
 			Debug.Log ("Free Pizza Stand Royal Blue"); 			
 			//INSERT Function for free pizza stands
 			showChanceCard(chance20);
-
+			freeProperty(29);
 			break;
 		case 21: 
 			Debug.Log ("Free Pizza Stand Royal Blue"); 
 			//INSERT Function for free pizza stands
 			showChanceCard(chance21);
-
+			freeProperty(29);
 			break;
 		case 22: 
 			Debug.Log ("Free Pizza Stand Yellow"); 			
 			//INSERT Function for free pizza stands
 			showChanceCard(chance22);
-
+			freeProperty(21);
 			break;
 		case 23: 
 			Debug.Log ("Free Pizza Stand Yellow"); 
 			//INSERT Function for free pizza stands
 			showChanceCard(chance23);
-
+			freeProperty(21);
 			break;
 		} //End of conditionals for drawn chance card
 
@@ -532,6 +552,34 @@ public class GameController : MonoBehaviour {
 		showProperty (properties[index].sprite);
 	}
 
+	public void freeProperty(int index){
+		if (propertyOwner [index] != 0
+			&& propertyOwner [index] == propertyOwner [propertyPair [index]])
+			return; //owned by same person
+
+		if (propertyOwner [index] == 0) { //space is free
+			properties [index].color = mps [turn].playercolor;
+			propertyOwner [index] = playerindex [turn];
+			return;
+		} else if (propertyOwner [propertyPair [index]] == 0) { //space isn't free, but space's pair is free
+			properties [propertyPair[index]].color = mps [turn].playercolor;
+			propertyOwner [propertyPair[index]] = playerindex [turn];
+			return;
+		}
+
+		//both spaces are owned, but by different people
+		int pairindex = propertyPair [index];
+		if (money [propertyOwner [index]] >= money [propertyOwner [pairindex]]) {
+			properties [index].color = mps [turn].playercolor;
+			propertyOwner [index] = playerindex [turn];
+			return;
+		} else {
+			properties [pairindex].color = mps [turn].playercolor;
+			propertyOwner [pairindex] = playerindex [turn];
+			return;
+		}
+	}
+
 	public void showChanceCard(Sprite card){
 		tap.gameObject.SetActive (false);
 		actionPanel.SetActive(true);
@@ -550,7 +598,7 @@ public class GameController : MonoBehaviour {
 		no.gameObject.SetActive (true);
 		property.gameObject.SetActive (true);
 		chancecard.gameObject.SetActive (false);
-		chancecard.sprite = card;
+		property.sprite = card;
 		Time.timeScale = 0;
 	}
 
@@ -561,6 +609,11 @@ public class GameController : MonoBehaviour {
 		no.gameObject.SetActive (false);
 		property.gameObject.SetActive (false);
 		chancecard.gameObject.SetActive (false);
+
+		if (money [1] <= 0 || money [2] <= 0 || money [3] <= 0 || money [4] <= 0) {
+			okay.gameObject.SetActive(false);
+		}
+
 		Time.timeScale = 0;
 	}
 
@@ -570,13 +623,34 @@ public class GameController : MonoBehaviour {
 	}
 
 	public void OkayButton(){
-		if (property.gameObject.activeInHierarchy){
-			properties[propertyActionIndex].color = mps[turn].playercolor;
-			propertyOwner[propertyActionIndex] = playerindex[turn];
-			money[playerindex[turn]] -= propertyPrice[propertyActionIndex];
+		if (property.gameObject.activeInHierarchy) {
+			properties [propertyActionIndex].color = mps [turn].playercolor;
+			propertyOwner [propertyActionIndex] = playerindex [turn];
+			money [playerindex [turn]] -= propertyPrice [propertyActionIndex];
+			actionPanel.SetActive (false);
+			Time.timeScale = 1;
+		} else if (chancecard.gameObject.activeInHierarchy) {
+			//handle property for chance based movements
+			switch (chanceIndex) {
+			case 0:
+			case 5:
+			case 6:
+			case 11:
+				handleProperty (mps [turn].targetIndex);
+				if (!property.gameObject.activeInHierarchy) {
+					actionPanel.SetActive (false);
+					Time.timeScale = 1;
+				}
+				break;
+			default:
+				actionPanel.SetActive (false);
+				Time.timeScale = 1;
+				break;
+			}
+			
+		} else {
+			actionPanel.SetActive (false);
+			Time.timeScale = 1;
 		}
-
-		actionPanel.SetActive (false);
-		Time.timeScale = 1;
 	}
 }
