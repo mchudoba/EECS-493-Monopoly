@@ -29,6 +29,13 @@ public class SidePanelOpener : MonoBehaviour
 		emptySpace.SetActive(false);
 	}
 
+	public void TogglePanel()
+	{
+		sidePanelOpen = !sidePanelOpen;
+		anim.SetBool("OpenPanel", sidePanelOpen);
+		emptySpace.SetActive(sidePanelOpen);
+	}
+
 	public void RestartLevel()
 	{
 		if (Network.isServer)

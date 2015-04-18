@@ -1,16 +1,17 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class Dice : MonoBehaviour {
 
-	public Material side1;
-	public Material side2;
-	public Material side3;
-	public Material side4;
-	public Material side5;
-	public Material side6;
+	public Sprite s1;
+	public Sprite s2;
+	public Sprite s3;
+	public Sprite s4;
+	public Sprite s5;
+	public Sprite s6;
 
-	Renderer r;
+	Image buttonImage;
 
 	public static float timerVal = 2f;
 	public static float timer = 0;
@@ -27,7 +28,7 @@ public class Dice : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		r = gameObject.GetComponent<Renderer> ();
+		buttonImage = gameObject.GetComponent<Image>();
 	}
 
 	public static int Roll(){
@@ -55,22 +56,22 @@ public class Dice : MonoBehaviour {
 	void changeSide(int side){
 		switch (side) {
 		case 1:
-			r.material = side1;
+			buttonImage.sprite = s1;
 			break;
 		case 2:
-			r.material = side2;
+			buttonImage.sprite = s2;
 			break;
 		case 3:
-			r.material = side3;
+			buttonImage.sprite = s3;
 			break;
 		case 4:
-			r.material = side4;
+			buttonImage.sprite = s4;
 			break;
 		case 5:
-			r.material = side5;
+			buttonImage.sprite = s5;
 			break;
 		default:
-			r.material = side6;
+			buttonImage.sprite = s6;
 			break;
 		}
 	}

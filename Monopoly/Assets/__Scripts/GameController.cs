@@ -7,10 +7,12 @@ using System.Linq;
 public class GameController : MonoBehaviour {
 	public float initialMoney = 30f;
 
+	public Button menuButton;
 	public Text debugText;
 
 	public GameObject RollPanel;
 	public Button tap;
+	public Button dieButton;
 	public Text tapText;
 
 	public GameObject actionPanel;
@@ -161,6 +163,8 @@ public class GameController : MonoBehaviour {
 			//if the die is rolling, or the actionpanel is up, or a piece is moving,
 			//	disallow tap to roll
 			tap.gameObject.SetActive (false);
+			dieButton.interactable = false;
+			tapText.gameObject.SetActive(false);
 		} else {
 			if(!(tap.gameObject.activeInHierarchy)){
 				if(mps[turn].jail){
@@ -169,11 +173,15 @@ public class GameController : MonoBehaviour {
 					return;
 				}
 				tap.gameObject.SetActive(true);
+				dieButton.interactable = true;
+				tapText.gameObject.SetActive(true);
 			}
 
 			if(diceval[turn] > 0 && !initialroll){
 				mps[turn].moveTowardsTarget(diceval[turn]);
 				tap.gameObject.SetActive(false);
+				dieButton.interactable = false;
+				tapText.gameObject.SetActive(false);
 
 				//Debugging Stuff:
 				Debug.Log ("CHECK WHERE LAND");
@@ -582,7 +590,10 @@ public class GameController : MonoBehaviour {
 
 	public void showChanceCard(Sprite card){
 		tap.gameObject.SetActive (false);
+		dieButton.interactable = false;
+		tapText.gameObject.SetActive(false);
 		actionPanel.SetActive(true);
+		menuButton.interactable = false;
 		information.text = "Chance Card";
 		no.gameObject.SetActive (false);
 		property.gameObject.SetActive (false);
@@ -593,7 +604,10 @@ public class GameController : MonoBehaviour {
 
 	public void showProperty(Sprite card){
 		tap.gameObject.SetActive (false);
+		dieButton.interactable = false;
+		tapText.gameObject.SetActive(false);
 		actionPanel.SetActive(true);
+		menuButton.interactable = false;
 		information.text = "Buy Property?";
 		no.gameObject.SetActive (true);
 		property.gameObject.SetActive (true);
@@ -604,7 +618,10 @@ public class GameController : MonoBehaviour {
 
 	public void showMessage(string msg){
 		tap.gameObject.SetActive (false);
+		dieButton.interactable = false;
+		tapText.gameObject.SetActive(false);
 		actionPanel.SetActive(true);
+		menuButton.interactable = false;
 		information.text = msg;
 		no.gameObject.SetActive (false);
 		property.gameObject.SetActive (false);
@@ -614,6 +631,7 @@ public class GameController : MonoBehaviour {
 
 	public void NoButton(){
 		actionPanel.SetActive (false);
+		menuButton.interactable = true;
 		Time.timeScale = 1;
 	}
 
@@ -623,6 +641,7 @@ public class GameController : MonoBehaviour {
 			propertyOwner [propertyActionIndex] = playerindex [turn];
 			money [playerindex [turn]] -= propertyPrice [propertyActionIndex];
 			actionPanel.SetActive (false);
+			menuButton.interactable = true;
 			Time.timeScale = 1;
 		} else if (chancecard.gameObject.activeInHierarchy) {
 			//handle property for chance based movements
@@ -634,11 +653,13 @@ public class GameController : MonoBehaviour {
 				handleProperty (mps [turn].targetIndex);
 				if (!property.gameObject.activeInHierarchy) {
 					actionPanel.SetActive (false);
+					menuButton.interactable = true;
 					Time.timeScale = 1;
 				}
 				break;
 			default:
 				actionPanel.SetActive (false);
+				menuButton.interactable = true;
 				Time.timeScale = 1;
 				break;
 			}
@@ -648,6 +669,7 @@ public class GameController : MonoBehaviour {
 				Application.LoadLevel("Main_Menu");
 			}
 			actionPanel.SetActive (false);
+			menuButton.interactable = true;
 			Time.timeScale = 1;
 		}
 	}

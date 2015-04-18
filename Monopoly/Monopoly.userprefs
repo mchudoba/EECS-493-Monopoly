@@ -1,8 +1,10 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/__Scripts/GameController.cs">
     <Files>
-      <File FileName="Assets/__Scripts/GameController.cs" Line="243" Column="24" />
+      <File FileName="Assets/__Scripts/SidePanelOpener.cs" Line="36" Column="39" />
+      <File FileName="Assets/__Scripts/GameController.cs" Line="634" Column="33" />
+      <File FileName="Assets/__Scripts/Dice.cs" Line="31" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
