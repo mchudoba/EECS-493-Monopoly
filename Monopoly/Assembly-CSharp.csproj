@@ -50,16 +50,11 @@
      <Compile Include="Assets\__Scripts\CameraControl.cs" />
      <Compile Include="Assets\__Scripts\Dice.cs" />
      <Compile Include="Assets\__Scripts\GameController.cs" />
-     <Compile Include="Assets\__Scripts\Main_Menu\MenuInteraction.cs" />
-     <Compile Include="Assets\__Scripts\Main_Menu\MenuManager.cs" />
-     <Compile Include="Assets\__Scripts\Main_Menu\PlayerLobbyInfo.cs" />
-     <Compile Include="Assets\__Scripts\Main_Menu\ServerInfo.cs" />
+     <Compile Include="Assets\__Scripts\MenuInteraction.cs" />
+     <Compile Include="Assets\__Scripts\MenuManager.cs" />
      <Compile Include="Assets\__Scripts\Move.cs" />
      <Compile Include="Assets\__Scripts\MovePiece.cs" />
-     <Compile Include="Assets\__Scripts\NetworkManager.cs" />
-     <Compile Include="Assets\__Scripts\Player.cs" />
      <Compile Include="Assets\__Scripts\SidePanelOpener.cs" />
-     <Compile Include="Assets\__Scripts\TextDebug.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
