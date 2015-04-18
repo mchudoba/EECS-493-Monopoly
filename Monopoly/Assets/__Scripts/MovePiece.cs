@@ -2,6 +2,7 @@
 using System.Collections;
 
 public class MovePiece : MonoBehaviour {
+	public static bool playerMoving = false;
 
 	public GameController gc;
 	public Vector3[] boardSpaces; 
@@ -44,31 +45,20 @@ public class MovePiece : MonoBehaviour {
 	void Update () {
 
 		if (NotAtTarget()) {
+			playerMoving = true;
 			if(currentIndex == 31) {	//If reach end of boardSpaces array
 				transform.position = Vector3.MoveTowards (transform.position, boardSpaces [0], speed * Time.deltaTime);
-				//transform.position = boardSpaces[0];
 			}
 			else if (currentIndex == 9 && jail == true) {	//going to jail
-				Debug.Log ("JAIL!");
 				transform.position = Vector3.MoveTowards (transform.position, inJail, speed * Time.deltaTime);
-				Debug.Log (inJail);
-				Debug.Log (transform.position);
-				//targetIndex = 10; //for space landing:
-				//gc.changeMoney(player, -3);
-				//transform.position = inJail;
 			}
 			else {	//Traverse one space ahead at a time
 				transform.position = Vector3.MoveTowards (transform.position, boardSpaces [currentIndex + 1], speed * Time.deltaTime);
-				//transform.position = boardSpaces[currentIndex+1];
-				
 			}
 
 			if(transform.position == boardSpaces[(currentIndex + 1) % 32]){
 				if ((jail == false || noCollect == false) && ((currentIndex + 1) % 32 == 0)) {
-					Debug.Log ("GO!");
-
 					gc.changeMoney(player, 2);
-					
 				} 
 
 				currentIndex = (currentIndex + 1) % 32;
@@ -77,10 +67,12 @@ public class MovePiece : MonoBehaviour {
 				if(currentIndex == targetIndex) gc.nextTurn();
 			}
 
-			if(transform.position == inJail && jail){
+			if (transform.position == inJail && jail){
 				currentIndex = 9;
 			}
 		}
+		else
+			playerMoving = false;
 	}
 
 
@@ -96,31 +88,23 @@ public class MovePiece : MonoBehaviour {
 		float z = -1f;
 
 		if (gameObject.tag == "P1") {	//sphere
-			Debug.Log ("SPHERE");
 			boardSpaces[index] = new Vector3 (x, y, z); //GO
 		}
 		else if(gameObject.tag == "P2") {//cube
-			Debug.Log ("CUBE");
 			x = -4.2f;
 			y = -7.3f;
 			boardSpaces[index] = new Vector3 (x, y, z);
 		}
 		else if(gameObject.tag == "P3") {//capsule
-			Debug.Log ("CAPSULE");
 			x = -5.3f;
 			y = -8.2f;
 			boardSpaces[index] = new Vector3 (x, y, z); 
 		}
 		else if(gameObject.tag == "P4") {//cylinder
-			Debug.Log ("CYLINDER");
 			x = -4.2f;
 			y = -8.2f;
 			boardSpaces[index] = new Vector3 (x, y, z);
 		}
-
-		/*Debug.Log (index);
-		Debug.Log (currentIndex);
-		Debug.Log (boardSpaces[index]);*/
 
 		index++;
 		
@@ -166,7 +150,6 @@ public class MovePiece : MonoBehaviour {
 				y += 1.5f;
 			}
 
-			//Debug.Log (index);
 			boardSpaces [index] = new Vector3(x,y,z);	//sets new position at index
 		}
 		
@@ -202,7 +185,6 @@ public class MovePiece : MonoBehaviour {
 				}
 			}
 
-			//Debug.Log (index);
 			boardSpaces [index] = new Vector3(x,y,z);
 		}
 		
@@ -237,7 +219,6 @@ public class MovePiece : MonoBehaviour {
 					y = -8.3f;	
 				}
 			}
-			//Debug.Log (index);
 			boardSpaces [index] = new Vector3(x,y,z);
 		}
 		
@@ -264,63 +245,44 @@ public class MovePiece : MonoBehaviour {
 			else { //sets non-corner spaces
 				x -= 1.5f;
 			}
-			//Debug.Log (index);
 			boardSpaces [index] = new Vector3(x,y,z);
 		}
 
 		//SETS THE INJAIL SPACE ON BOARD
 		if (gameObject.tag == "P1") {	//sphere
-			Debug.Log ("SPHERE");
 			inJail = new Vector3(-4.8f, 7.9f, -1f);
 		}
 		else if(gameObject.tag == "P2") {//cube
-			Debug.Log ("CUBE");
 			inJail = new Vector3(-4.8f, 7.2f, -1f);
 			
 		}
 		else if(gameObject.tag == "P3") {//capsule
-			Debug.Log ("CAPSULE");
 			inJail = new Vector3(-4.2f, 7.9f, -1f);
 		}
 		else if(gameObject.tag == "P4") {//cylinder
-			Debug.Log ("CYLINDER");
 			inJail = new Vector3(-4.2f, 7.2f, -1f);
 		}
 
 		//resets index back to start:
 		currentIndex = 0;
 		index = 0;
-
-		//DEBUGGING PURPOSES
-		/*Debug.Log ("CHECK IF INITIALIZED");
-		for (int i = 0; i < 32; i++) {
-			Debug.Log ("CHECK IF INITIALIZED");
-			Debug.Log (i);
-			Debug.Log (boardSpaces[i]);
-		}*/
-	} //END OF initBoardArray FUNCTION
+	}
 
 	//Moves Object Towards Target Location
 	public void moveTowardsTarget(int roll)  {
 		targetIndex += roll;
 		targetIndex %= 32;
-
-	} // End of moveTowardsFunction
+	}
 
 	IEnumerator Begin()
 	{
 		yield return StartCoroutine(Wait(5f));
-		//3.1415 seconds later
 	}
 
 	IEnumerator Wait(float delay)
 	{
 		yield return new WaitForSeconds(delay);
-		Debug.Log ("Waited a sec");
 	}
-
-
-
 }
 
 

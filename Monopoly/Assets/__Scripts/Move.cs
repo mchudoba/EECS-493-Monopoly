@@ -18,22 +18,12 @@ public class Move : MonoBehaviour {
 	}
 	// Use this for initialization
 	void Start () {
-		//MoveTowardsTarget ();	
 		targetPosition1 = new Vector3 (-4.8f, -7.7f, -1f);
 		targetPosition2 = new Vector3 (-4.8f, 7.7f, -1f);
 		targetPosition3 = new Vector3 (4.8f,7.7f,-1f);
 		targetPosition4 = new Vector3 (4.8f,-7.7f,-1f);
 
-
 		currentPosition = this.transform.position;
-		Debug.Log ("START");
-		Debug.Log (currentPosition);
-		Debug.Log (targetPosition1);
-		Debug.Log (targetPosition2);
-		Debug.Log (targetPosition3);
-		Debug.Log (targetPosition4);
-		
-		Debug.Log ("START COORD ABOVE");
 		
 		if (V3Equal(currentPosition,targetPosition1)) 
 			targetPosition = targetPosition2;
@@ -44,37 +34,25 @@ public class Move : MonoBehaviour {
 		else if (V3Equal(currentPosition,targetPosition4))
 			targetPosition = targetPosition1;
 	}
-	// Update is called once per frame
+
 	void Update () {
-		Debug.Log ("Update");
 		//move towards a target at a set speed.
 		currentPosition = this.transform.position;
-		Debug.Log (targetPosition);
-		Debug.Log (currentPosition);
-		Debug.Log ("BEFORE IFS");
-		Debug.Log (V3Equal(currentPosition,targetPosition3));
+
 		if (V3Equal(currentPosition,targetPosition1)){
-			Debug.Log ("1");
 			targetPosition = targetPosition2;
-			Debug.Log (targetPosition);
 
 		}
 		else if (V3Equal(currentPosition,targetPosition2)) {
-			Debug.Log ("2");
 			targetPosition = targetPosition3;
-			Debug.Log (targetPosition);
 
 		}
 		else if (V3Equal(currentPosition,targetPosition3)){
-			Debug.Log ("3");
 			targetPosition = targetPosition4;
-			Debug.Log (targetPosition);
 
 		}
 		else if (V3Equal(currentPosition,targetPosition4)) {
-			Debug.Log ("4");
 			targetPosition = targetPosition1;
-			Debug.Log (targetPosition);
 
 		}
 		MoveTowardsTarget ();	

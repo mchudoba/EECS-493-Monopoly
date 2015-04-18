@@ -50,7 +50,6 @@
      <Compile Include="Assets\__Scripts\CameraControl.cs" />
      <Compile Include="Assets\__Scripts\Dice.cs" />
      <Compile Include="Assets\__Scripts\GameController.cs" />
-     <Compile Include="Assets\__Scripts\MenuInteraction.cs" />
      <Compile Include="Assets\__Scripts\MenuManager.cs" />
      <Compile Include="Assets\__Scripts\Move.cs" />
      <Compile Include="Assets\__Scripts\MovePiece.cs" />

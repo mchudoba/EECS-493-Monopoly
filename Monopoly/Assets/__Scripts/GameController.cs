@@ -5,10 +5,12 @@ using System.Collections.Generic;
 using System.Linq;
 
 public class GameController : MonoBehaviour {
+	public int numPlayers = 4;
+
 	public float initialMoney = 30f;
 
 	public Button menuButton;
-	public Text debugText;
+	public Text moneyText;
 
 	public GameObject RollPanel;
 	public Button tap;
@@ -21,6 +23,9 @@ public class GameController : MonoBehaviour {
 	public Text information;
 	public Image property;
 	public Image chancecard;
+
+	public Text turnText;
+	public Text tuitionText;
 
 	//Not sure if you need this for something lol:
 	public Sprite chance0;
@@ -90,13 +95,14 @@ public class GameController : MonoBehaviour {
 
 	public void nextTurn(){
 		++turn;
-		if (turn > 4)
+		if (turn > numPlayers)
 			turn = 1;
+
+		turnText.text = "Player " + turn.ToString() + " Turn";
 	}
 
 	// Use this for initialization
 	void Start () {
-		Debug.Log (" ~~~~~~~~~~~~~~~~ GameController");
 		players = new GameObject[5];
 		players [1] = P1;
 		players [2] = P2;
@@ -141,8 +147,12 @@ public class GameController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		debugText.text = "P1: $" + money [1].ToString ("F0") + "   P2: $" + money [2].ToString ("F0")
-			+ "\nP3: $" + money [3].ToString ("F0") + "   P4: $" + money [4].ToString ("F0");
+		moneyText.text = "P1: $" + money [1].ToString ("F0") + "   P2: $" + money [2].ToString ("F0");
+
+		if (numPlayers >= 3)
+			moneyText.text += "\nP3: $" + money[3].ToString ("F0");
+		if (numPlayers == 4)
+			moneyText.text += "   P4: $" + money[4].ToString ("F0");
 
 		if (money [1] <= 0 || money [2] <= 0 || money [3] <= 0 || money [4] <= 0) {
 			int maxindex = 1;
@@ -183,15 +193,9 @@ public class GameController : MonoBehaviour {
 				dieButton.interactable = false;
 				tapText.gameObject.SetActive(false);
 
-				//Debugging Stuff:
-				Debug.Log ("CHECK WHERE LAND");
-				Debug.Log ("tuition = " + tuition);
-				Debug.Log ("target = " + mps[turn].targetIndex);
-
 				//Does something depending on what space it lands:
 				switch (mps[turn].targetIndex) {
 				case 0: //GO!
-					Debug.Log("Land on GO!");
 					//Nothing, should Add $200 in MovePiece.cs *Parthiv implemented*
 					diceval[turn] = 0;
 					break;
@@ -200,34 +204,34 @@ public class GameController : MonoBehaviour {
 					diceval[turn] = 0;
 					break;
 				case 5: case 20: //Pay $2 to Participate in the Hackathon/ Design expo
-					Debug.Log ("Pay $2 to Participate");
 					//Change money on player 
+					showMessage("Pay $2 to participate in the hackathon");
 					changeMoney(playerindex[turn], -2);
 					//Add money to "Free Tuition" 
 					tuition += 2;
+					tuitionText.text = "$" + tuition.ToString ();
 					diceval[turn] = 0;
 					break;
 				case 6: case 11: case 22: case 30: //ROLL AGAIN! Northwood, Commuter/Souther, Bursley/Baits, Diag
 					//Roll again
-					Debug.Log ("Roll Again");
+					showMessage("You caught a bus to north campus. Roll again");
 					turn--;
 					//ButtonRoll ();
 					diceval[turn + 1] = 0;
 					break;	
 				case 10: //Visiting
 					//DO NOTHING!
-					Debug.Log ("Just Visiting");
 					diceval[turn] = 0;
 					break;
 				case 16: //FREE TUITION
 					//Collect all the money that is stocked up on this space
-					Debug.Log ("Free Tuition");
+					showMessage("Free tuition! You collected $" + tuition.ToString("F0"));
 					changeMoney(playerindex[turn], tuition);
 					tuition = 0; 
+					tuitionText.text = "$0";
 					diceval[turn] = 0;
 					break;
 				case 26: //Go to JAIL
-					Debug.Log ("-3$ and Go to JAIL!");
 					changeMoney(playerindex[turn],-3f);
 					mps[turn].jail = true;
 					mps[turn].noCollect = true;
@@ -237,7 +241,6 @@ public class GameController : MonoBehaviour {
 					nextTurn();
 					break;
 				default: //Properties:
-					Debug.Log ("Property!");
 					//INSERT PROPERTY IMPLEMENTATION:
 					handleProperty(mps[turn].targetIndex);
 					diceval[turn] = 0;
@@ -249,13 +252,10 @@ public class GameController : MonoBehaviour {
 	}
 
 	public void ButtonRoll(){
-		Debug.Log ("&&&&&&&&    &&&&&&&&&&&   &&&&&&&&&&&&&&&& ENTER BUTTON ROLL");
 		diceval [turn] = Dice.Roll ();
 
 		//after initial setup
-		if (initialroll && turn == 4) {
-			Debug.Log ("^$^$^$^$^$^$^  ^$^$^$^$^$^$^$  ^$^$^$^$^$^$^$^$ ENTER INITIAL ROLL");
-
+		if (initialroll && turn == numPlayers) {
 			initialroll = false;
 
 			diceval [0] = -1;
@@ -295,19 +295,9 @@ public class GameController : MonoBehaviour {
 
 			return; //no moving on initial roll
 		} else if (initialroll == true && turn != 4) {	//Rolling for order, do nothing until all 4 players roll
-			Debug.Log ("88888888888888888888888888888 ROLLING FOR ORDER");
 			nextTurn();
 			return; 
 		} else {
-		
-
-
-			/*call standard functions*/
-			//playerorder[turn].move(diceval[turn]);
-			Debug.Log ("$$$$$ ^^^^^^^^^^ $$$$$$$$$ ^^^^^^^^^ $$$$$$$$$$$$$$$$$$$ END OF ORDER");
-			Debug.Log (playerorder [turn]);
-			Debug.Log (diceval[turn]);
-
 			//actual movement occurs in update once dice is no longer moving
 			//whatever function occurs on that space will happen here
 		}
@@ -321,28 +311,19 @@ public class GameController : MonoBehaviour {
 
 	//Draws a random Chance Card from array and then does the action specified:
 	public void landOnChance(int player) {
-		Debug.Log ("Land on Chance");
 		//Image chanceIndex = chanceDrawPile[Random.Range(0, chanceDrawPile.Length)];
 		chanceIndex = Random.Range (0, chanceDrawPile.Count); //Get random card
-
-		//Debugging/Testing Purposes:
-		Debug.Log ("chanceIndex = " + chanceIndex);
-		Debug.Log ("chanceDrawPile.Count = " + chanceDrawPile.Count);
-		//chanceIndex = 7; //testing variable
 
 		//Goes to chanceDrawPile, gets corresponding Chance Card, does Action:
 		switch(chanceIndex) {
 		case 0:
-			Debug.Log ("Go to the Art & Architecture Building");
 			//Space 13:
 			//NEED TO PUT SOMETHING TO MAKE IT STOP/THE INTERFACE STUFF
 			showChanceCard(chance0);
 			mps[turn].targetIndex = 13;
 			//Is the GO thing working? Yes
-			Debug.Log ("Add Property interface/function");
 			break;
 		case 1:
-			Debug.Log ("Ride on Bursley-Baits Bus and roll again");
 			//Space 22:
 			showChanceCard(chance1);
 			mps[turn].targetIndex = 22;
@@ -350,7 +331,6 @@ public class GameController : MonoBehaviour {
 			diceval[turn + 1] = 0;
 			break;
 		case 2:
-			Debug.Log ("Ride on Commuter North/South Bus and roll again");
 			//Space 11:
 			showChanceCard(chance2);
 			mps[turn].targetIndex = 11;
@@ -358,18 +338,16 @@ public class GameController : MonoBehaviour {
 			diceval[turn + 1] = 0;
 			break;
 		case 3:
-			Debug.Log ("Go to the Design Expo and pay $2");
 			//Space 20:
 			showChanceCard(chance3);
 			mps[turn].targetIndex = 20;
-			Debug.Log ("Pay $2 to Participate");
 			//Change money on player 
 			changeMoney(playerindex[turn],-2);
 			//Add money to "Free Tuition" 
 			tuition += 2;
+			tuitionText.text = "$" + tuition.ToString ();
 			break;
 		case 4:
-			Debug.Log ("Ride on Diag-to-Diag Bus and roll again");
 			//Space 30:
 			showChanceCard(chance4);
 			mps[turn].targetIndex = 30;
@@ -377,45 +355,37 @@ public class GameController : MonoBehaviour {
 			diceval[turn + 1] = 0;
 			break;
 		case 5:
-			Debug.Log ("Go to the DUDE");
 			//Space 12:
 			showChanceCard(chance5);
 			mps[turn].targetIndex = 12;
-			Debug.Log ("Add Property interface/function");
 			break;
 		case 6:
-			Debug.Log ("Go to the EECS Building");
 			//Space 29:
 			showChanceCard(chance6);
 			mps[turn].targetIndex = 29;
-			Debug.Log ("Add Property interface/function");
 			break;
 		case 7:
-			Debug.Log ("Pay $3 to take the bus to GG Brown Laboratory");
 			//Space 10:
 			showChanceCard(chance7);
 			changeMoney(playerindex[turn], -3);
 			mps[turn].targetIndex = 10;
 			break;
 		case 8:
-			Debug.Log ("Go to Go Blue! Collect $2 pocket money as you pass");
 			//Space 0:
 			showChanceCard(chance8);
 			mps[turn].targetIndex = 0;
 			break;
 		case 9:
-			Debug.Log ("Go to the Hackathon and pay $2");
 			//Space 5:
 			showChanceCard(chance9);
 			mps[turn].targetIndex = 5;
-			Debug.Log ("Pay $2 to Participate");
 			//Change money on player 
 			changeMoney(playerindex[turn],-2);
 			//Add money to "Free Tuition" 
 			tuition += 2;
+			tuitionText.text = "$" + tuition.ToString ();
 			break;
 		case 10:
-			Debug.Log ("Ride on Northwood Bus and roll again");
 			//Space 6:
 			showChanceCard(chance10);
 			mps[turn].targetIndex = 6;
@@ -423,80 +393,66 @@ public class GameController : MonoBehaviour {
 			diceval[turn + 1] = 0;
 			break;
 		case 11: 
-			Debug.Log ("Go to the Space Research Building");
 			//Space 25:
 			showChanceCard(chance11);
 			mps[turn].targetIndex = 25;
-			Debug.Log ("Add Property interface/function");
 			break;
 		case 12:
-			Debug.Log ("Free Pizza Stand Green"); 
 			//INSERT Function for free pizza stands
 			showChanceCard(chance12);
 			freeProperty(25);
 			break;
 		case 13:
-			Debug.Log ("Free Pizza Stand Light Blue"); 
 			//INSERT Function for free pizza stands
 			showChanceCard(chance13);
 			freeProperty(4);
 			break;
 		case 14:
-			Debug.Log ("Free Pizza Stand Light Blue"); 
 			//INSERT Function for free pizza stands
 			showChanceCard(chance14);
 			freeProperty(4);
 			break;
 		case 15: 
-			Debug.Log ("Free Pizza Stand Orange");
 			//INSERT Function for free pizza stands
 			showChanceCard(chance15);
 			freeProperty(17);
 			break;
 		case 16: 
-			Debug.Log ("Free Pizza Stand Orange"); 
 			//INSERT Function for free pizza stands
 			showChanceCard(chance16);
 			freeProperty(17);
 			break;
 		case 17: 
-			Debug.Log ("Free Pizza Stand Purple"); 
 			//INSERT Function for free pizza stands
 			showChanceCard(chance17);
 			freeProperty(1);
 			break;
 		case 18: 
-			Debug.Log ("Free Pizza Stand Red"); 
 			//INSERT Function for free pizza stands
 			showChanceCard(chance18);
 			freeProperty(13);
 			break;
 		case 19:
-			Debug.Log ("Free Pizza Stand Red");
 			//INSERT Function for free pizza stands
 			showChanceCard(chance19);
 			freeProperty(13);
 			break;
 		case 20: 
-			Debug.Log ("Free Pizza Stand Royal Blue"); 			
 			//INSERT Function for free pizza stands
 			showChanceCard(chance20);
 			freeProperty(29);
 			break;
 		case 21: 
-			Debug.Log ("Free Pizza Stand Royal Blue"); 
 			//INSERT Function for free pizza stands
 			showChanceCard(chance21);
 			freeProperty(29);
 			break;
 		case 22: 
-			Debug.Log ("Free Pizza Stand Yellow"); 			
 			//INSERT Function for free pizza stands
 			showChanceCard(chance22);
 			freeProperty(21);
 			break;
 		case 23: 
-			Debug.Log ("Free Pizza Stand Yellow"); 
 			//INSERT Function for free pizza stands
 			showChanceCard(chance23);
 			freeProperty(21);
@@ -516,16 +472,6 @@ public class GameController : MonoBehaviour {
 	}
 
 	public void initializeChancePile() {
-		Debug.Log ("Initialize Chance Pile");
-		/*chanceDrawPile = new Image[24];
-		chanceDiscardPile = new Image[24];
-
-		chanceDrawPile [0] = chance1;
-		chanceDrawPile [1] = chance2;
-		chanceDrawPile */
-		//Add rest of cards: (can't figure out any other way than hardcode
-
-		//Other way with just indexing an int:
 		chanceDrawPile = new List<int>();
 		chanceDiscardPile = new List<int>();
 		numChance = 24;
